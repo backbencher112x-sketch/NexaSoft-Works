@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mobile Apps &amp; Guides | NexaSoft Works</title>
+  <style>
+    :root {
+      --bg-base: #020617;
+      --text-main: #f8fafc;
+      --text-muted: #cbd5e1;
+      --text-footer: #94a3b8;
+      --accent: #38bdf8;
+      --accent-2: #818cf8;
+      --accent-glow: rgba(56, 189, 248, 0.4);
+      --btn-text: #020617;
+      --card-bg: rgba(15, 23, 42, 0.62);
+      --card-border: rgba(148, 163, 184, 0.24);
+      --input-bg: rgba(30, 41, 59, 0.82);
+      --badge-low: #22c55e;
+      --badge-med: #f59e0b;
+      --badge-high: #ef4444;
+      --bg-overlay: linear-gradient(to bottom, rgba(0, 0, 0, 0.38), rgba(4, 18, 42, 0.38));
+      --bg-fallback: radial-gradient(circle at 50% 105%, #1d4ed8 0%, #581c87 28%, #07142b 60%, #000000 100%);
+      --bg-filter: none;
+      --bg-opacity: 1;
+    }
+
+    html[data-theme="light"] {
+      --bg-base: #eef6ff;
+      --text-main: #0f172a;
+      --text-muted: #334155;
+      --text-footer: #475569;
+      --accent: #0284c7;
+      --accent-2: #6366f1;
+      --accent-glow: rgba(2, 132, 199, 0.22);
+      --btn-text: #ffffff;
+      --card-bg: rgba(255, 255, 255, 0.8);
+      --card-border: rgba(14, 165, 233, 0.28);
+      --input-bg: rgba(241, 245, 249, 0.95);
+      --bg-overlay: linear-gradient(160deg, rgba(224, 242, 254, 0.84), rgba(237, 233, 254, 0.8));
+      --bg-fallback: linear-gradient(160deg, #dbeafe 0%, #ede9fe 52%, #f8fafc 100%);
+      --bg-filter: invert(0.92) hue-rotate(180deg) saturate(1.25) brightness(1.1);
+      --bg-opacity: 0.45;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+    body {
+      color: var(--text-main);
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background: var(--bg-base);
+      top: 0 !important;
+    }
+    .goog-te-banner-frame, .skiptranslate, #goog-gt-tt { display: none !important; }
+
+    /* Live Wallpaper */
+    .live-bg {
+      position: fixed;
+      inset: -5%;
+      z-index: -2;
+      background-image: var(--bg-overlay), url('bg.jpg'), var(--bg-fallback);
+      background-size: cover;
+      background-position: center;
+      filter: var(--bg-filter);
+      opacity: var(--bg-opacity);
+      animation: cosmicDrift 24s ease-in-out infinite alternate;
+      will-change: transform;
+    }
+    @keyframes cosmicDrift {
+      0%   { transform: scale(1.0) translate(0%, 0%); }
+      50%  { transform: scale(1.08) translate(-1.5%, -1%); }
+      100% { transform: scale(1.04) translate(1.5%, 1%); }
+    }
+    #starfield {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    /* Top Bar */
+    .topbar {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 1rem 1.2rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.5rem 0.95rem;
+      border-radius: 999px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(10px);
+      color: var(--text-main);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+    .back-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    header {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 1.2rem 1.2rem;
+      text-align: center;
+    }
+    header h1 {
+      font-size: 2rem;
+      color: var(--accent);
+      text-shadow: 0 0 18px var(--accent-glow);
+      margin-bottom: 0.5rem;
+    }
+    header p { color: var(--text-muted); font-size: 0.96rem; max-width: 560px; margin: 0 auto; }
+
+    /* Search & Filter Tabs */
+    .controls {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0.75rem 1.2rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+    .search-box {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border-radius: 12px;
+      border: 1px solid var(--card-border);
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      color: var(--text-main);
+      font-size: 0.95rem;
+      outline: none;
+    }
+    .search-box:focus { border-color: var(--accent); }
+
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+    .tab-btn {
+      padding: 0.5rem 1rem;
+      border-radius: 999px;
+      border: 1px solid var(--card-border);
+      background: var(--card-bg);
+      color: var(--text-main);
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .tab-btn.active {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: var(--btn-text);
+      border-color: transparent;
+    }
+
+    /* Guide Cards */
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 1.2rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.15rem;
+    }
+    .guide-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .guide-header {
+      width: 100%;
+      background: transparent;
+      border: none;
+      color: var(--text-main);
+      padding: 1.2rem 1.25rem;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      cursor: pointer;
+    }
+    .guide-title-wrap { display: flex; flex-direction: column; gap: 0.2rem; }
+    .tag {
+      display: inline-block;
+      width: fit-content;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.18rem 0.6rem;
+      border-radius: 999px;
+      background: var(--input-bg);
+      color: var(--accent);
+      border: 1px solid var(--card-border);
+    }
+    .guide-header h2 { font-size: 1.15rem; color: var(--text-main); margin-top: 0.25rem; }
+    .chevron { font-size: 1.25rem; color: var(--accent); transition: transform 0.25s ease; }
+    .guide-card.open .chevron { transform: rotate(180deg); }
+
+    .guide-body {
+      display: none;
+      padding: 0 1.25rem 1.35rem;
+      border-top: 1px solid var(--card-border);
+    }
+    .guide-card.open .guide-body { display: block; }
+
+    .sub-block {
+      margin-top: 1rem;
+      padding: 0.9rem 1rem;
+      border-radius: 12px;
+      background: var(--input-bg);
+      border: 1px solid var(--card-border);
+    }
+    .sub-block h3 {
+      font-size: 0.98rem;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .level-pill {
+      font-size: 0.72rem;
+      padding: 0.12rem 0.55rem;
+      border-radius: 999px;
+      color: #ffffff;
+      font-weight: 700;
+    }
+    .lvl-low { background: var(--badge-low); }
+    .lvl-med { background: var(--badge-med); }
+    .lvl-high { background: var(--badge-high); }
+
+    .step-list {
+      padding-left: 1.2rem;
+      color: var(--text-muted);
+      font-size: 0.92rem;
+    }
+    .step-list li { margin-bottom: 0.4rem; }
+    .step-list strong { color: var(--text-main); }
+
+    .tip-box {
+      margin-top: 0.9rem;
+      padding: 0.75rem 0.95rem;
+      border-left: 3px solid var(--accent);
+      background: rgba(56, 189, 248, 0.1);
+      border-radius: 0 10px 10px 0;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem 1rem 2rem;
+      color: var(--text-footer);
+      font-size: 0.88rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="live-bg"></div>
+  <canvas id="starfield"></canvas>
+  <div id="google_translate_element" style="display:none;"></div>
+
+  <div class="topbar">
+    <a href="index.html" class="back-btn">&larr; Home</a>
+    <span style="font-size:0.85rem; color:var(--text-muted); font-weight:600;">NexaSoft Works</span>
+  </div>
+
+  <header>
+    <h1>Mobile Apps &amp; Solutions</h1>
+    <p>Step-by-step guides to fix mobile network issues, set up low-to-high WhatsApp privacy, and control YouTube video &amp; Shorts quality.</p>
+  </header>
+
+  <div class="controls">
+    <input type="text" id="searchInput" class="search-box" placeholder="Search problem (e.g. network, whatsapp privacy, youtube quality)..." />
+    <div class="tabs">
+      <button class="tab-btn active" data-filter="all">All Guides</button>
+      <button class="tab-btn" data-filter="network">Network Fix</button>
+      <button class="tab-btn" data-filter="whatsapp">WhatsApp Privacy</button>
+      <button class="tab-btn" data-filter="youtube">YouTube Quality</button>
+    </div>
+  </div>
+
+  <main id="guidesContainer">
+    <!-- SECTION 1: NETWORK PROBLEM -->
+    <article class="guide-card open" data-category="network" data-keywords="network problem internet slow 4g 5g sim signal apn reset volte">
+      <button class="guide-header" type="button">
+        <div class="guide-title-wrap">
+          <span class="tag">Network Fix</span>
+          <h2>Mobile Network &amp; Slow Internet Problem — How to Solve</h2>
+        </div>
+        <span class="chevron">&#9662;</span>
+      </button>
+      <div class="guide-body">
+        <div class="sub-block">
+          <h3>Step 1: Quick Signal Refresh (30 Seconds)</h3>
+          <ol class="step-list">
+            <li>Turn on <strong>Airplane Mode</strong> for 15 seconds, then turn it off to reconnect to the nearest tower.</li>
+            <li>Check that <strong>Mobile Data</strong> is turned on and <strong>Data Saver</strong> is not blocking background apps.</li>
+          </ol>
+        </div>
+
+        <div class="sub-block">
+          <h3>Step 2: Fix Preferred Network &amp; VoLTE</h3>
+          <ol class="step-list">
+            <li>Open <strong>Settings &rarr; Network &amp; Internet (or SIM Cards) &rarr; Select your SIM</strong>.</li>
+            <li>Set <strong>Preferred network type</strong> to <strong>5G/4G/3G/2G (Auto)</strong>. If 5G is unstable in your area, switch to <strong>4G/LTE</strong> for steady speed.</li>
+            <li>Turn on <strong>VoLTE / 4G Calling</strong> for clear voice calls without dropping internet.</li>
+          </ol>
+        </div>
+
+        <div class="sub-block">
+          <h3>Step 3: Reset APN &amp; Network Settings (Deep Fix)</h3>
+          <ol class="step-list">
+            <li>Go to <strong>SIM Settings &rarr; Access Point Names (APN)</strong> &rarr; tap the 3 dots &rarr; <strong>Reset to default</strong>.</li>
+            <li>If the problem still continues, go to <strong>Settings &rarr; System &rarr; Reset options &rarr; Reset Wi-Fi, mobile &amp; Bluetooth</strong> (this does not delete photos or apps).</li>
+            <li>Restart your phone once after resetting.</li>
+          </ol>
+        </div>
+
+        <div class="tip-box">
+          <strong>Pro Tip:</strong> If only one SIM has no signal, remove the SIM tray, gently wipe the gold contacts with a dry cloth, and re-insert it.
+        </div>
+      </div>
+    </article>
+
+    <!-- SECTION 2: WHATSAPP PRIVACY LOW TO HIGH -->
+    <article class="guide-card" data-category="whatsapp" data-keywords="whatsapp privacy low medium high security last seen profile photo chat lock two step verification">
+      <button class="guide-header" type="button">
+        <div class="guide-title-wrap">
+          <span class="tag">WhatsApp Privacy</span>
+          <h2>WhatsApp Privacy — Low se High Level Tak Kaise Rakhein</h2>
+        </div>
+        <span class="chevron">&#9662;</span>
+      </button>
+      <div class="guide-body">
+        <p style="margin-top:0.85rem; color:var(--text-muted); font-size:0.9rem;">
+          Open <strong>WhatsApp &rarr; Settings &rarr; Privacy</strong> and choose the level that fits your need:
+        </p>
+
+        <div class="sub-block">
+          <h3>Level 1: Basic Protection <span class="level-pill lvl-low">LOW</span></h3>
+          <ol class="step-list">
+            <li><strong>Profile Photo &amp; About:</strong> Set to <strong>My Contacts</strong> so unknown numbers cannot see your photo.</li>
+            <li><strong>Status:</strong> Set to <strong>My Contacts</strong> (or <strong>My contacts except...</strong> to hide from specific people).</li>
+            <li><strong>Groups:</strong> Change from Everyone to <strong>My Contacts</strong> so strangers cannot add you to spam groups.</li>
+          </ol>
+        </div>
+
+        <div class="sub-block">
+          <h3>Level 2: Strong Personal Privacy <span class="level-pill lvl-med">MEDIUM</span></h3>
+          <ol class="step-list">
+            <li><strong>Last Seen &amp; Online:</strong> Set Last Seen to <strong>Nobody</strong> (or My Contacts) and Online to <strong>Same as Last Seen</strong>.</li>
+            <li><strong>Read Receipts:</strong> Turn <strong>Off</strong> to disable Blue Ticks (note: you also won't see others' blue ticks).</li>
+            <li><strong>Silence Unknown Callers:</strong> Go to <strong>Privacy &rarr; Calls</strong> and turn on <strong>Silence unknown callers</strong>.</li>
+            <li><strong>Default Message Timer:</strong> Enable <strong>Disappearing Messages</strong> (24 hours / 7 days) for temporary chats.</li>
+          </ol>
+        </div>
+
+        <div class="sub-block">
+          <h3>Level 3: Maximum Security <span class="level-pill lvl-high">HIGH</span></h3>
+          <ol class="step-list">
+  
