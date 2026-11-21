@@ -300,7 +300,16 @@
       padding: 1.5rem;
       border-radius: 14px;
       border: 1px solid var(--card-border);
-      transition: background 0.35s ease, border-color 0.35s ease;
+      transition: transform 0.2s ease, background 0.35s ease, border-color 0.35s ease;
+    }
+    a.card {
+      text-decoration: none;
+      display: block;
+      color: inherit;
+    }
+    a.card:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent);
     }
     .card h3 { color: var(--accent); margin-bottom: 0.5rem; font-size: 1.1rem; }
     .card p { color: var(--text-muted); font-size: 0.95rem; }
@@ -421,10 +430,10 @@
         <h3 data-i18n="s1Title">Web Development</h3>
         <p data-i18n="s1Desc">Fast, responsive websites and web apps built for businesses and startups.</p>
       </div>
-      <div class="card">
-        <h3 data-i18n="s2Title">Mobile Apps</h3>
-        <p data-i18n="s2Desc">Clean, user-friendly Android and cross-platform mobile applications.</p>
-      </div>
+      <a href="mobile-apps.html" class="card">
+        <h3 data-i18n="s2Title">Mobile Apps &amp; Guides &rarr;</h3>
+        <p data-i18n="s2Desc">Network problem fixes, WhatsApp privacy levels, YouTube quality settings &amp; mobile solutions.</p>
+      </a>
       <div class="card">
         <h3 data-i18n="s3Title">Custom Tools &amp; Automation</h3>
         <p data-i18n="s3Desc">Scripts, dashboards, and workflow automation to save time and cut manual work.</p>
@@ -490,8 +499,8 @@
         servicesTitle: "Our Services",
         s1Title: "Web Development",
         s1Desc: "Fast, responsive websites and web apps built for businesses and startups.",
-        s2Title: "Mobile Apps",
-        s2Desc: "Clean, user-friendly Android and cross-platform mobile applications.",
+        s2Title: "Mobile Apps & Guides →",
+        s2Desc: "Network problem fixes, WhatsApp privacy levels, YouTube quality settings & mobile solutions.",
         s3Title: "Custom Tools & Automation",
         s3Desc: "Scripts, dashboards, and workflow automation to save time and cut manual work.",
         s4Title: "IT & Software Support",
@@ -511,8 +520,8 @@
         servicesTitle: "हमारी सेवाएँ",
         s1Title: "वेब डेवलपमेंट",
         s1Desc: "बिज़नेस और स्टार्टअप्स के लिए तेज़, रेस्पॉन्सिव वेबसाइट्स और वेब ऐप्स।",
-        s2Title: "मोबाइल ऐप्स",
-        s2Desc: "क्लीन और यूज़र-फ्रेंडली Android व क्रॉस-प्लेटफ़ॉर्म मोबाइल एप्लिकेशन।",
+        s2Title: "मोबाइल ऐप्स और गाइड्स →",
+        s2Desc: "नेटवर्क प्रॉब्लम फिक्स, WhatsApp प्राइवेसी लेवल, YouTube क्वालिटी सेटिंग्स और मोबाइल सॉल्यूशन।",
         s3Title: "कस्टम टूल्स और ऑटोमेशन",
         s3Desc: "समय बचाने और मैनुअल काम कम करने के लिए स्क्रिप्ट्स, डैशबोर्ड्स और ऑटोमेशन।",
         s4Title: "IT और सॉफ्टवेयर सपोर्ट",
@@ -530,13 +539,4 @@
 
     function applyLocalLang(lang) {
       const dict = i18n[lang] || i18n.en;
-      document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (dict[key]) el.textContent = dict[key];
-      });
-    }
-
-    function setGoogleTranslateCookie(lang) {
-      const val = lang === 'en' ? '' : `/en/${lang}`;
-      document.cookie = `googtrans=${val};path=/`;
-      document.cookie = `googtrans=${val};path=/;dom
+      document.querySelectorAll('[da
