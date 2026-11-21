@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NexaSoft Works | Complete Software Solutions</title>
+  <style>
+    :root {
+      --bg-base: #020617;
+      --text-main: #f8fafc;
+      --text-muted: #cbd5e1;
+      --text-footer: #94a3b8;
+      --accent: #38bdf8;
+      --accent-2: #818cf8;
+      --accent-glow: rgba(56, 189, 248, 0.45);
+      --btn-text: #020617;
+      --card-bg: rgba(15, 23, 42, 0.56);
+      --card-border: rgba(148, 163, 184, 0.24);
+      --panel-bg: rgba(15, 23, 42, 0.9);
+      --input-bg: rgba(30, 41, 59, 0.85);
+      --input-border: rgba(148, 163, 184, 0.3);
+      --bg-overlay: linear-gradient(to bottom, rgba(0, 0, 0, 0.35), rgba(4, 18, 42, 0.35));
+      --bg-fallback: radial-gradient(circle at 50% 105%, #1d4ed8 0%, #581c87 28%, #07142b 60%, #000000 100%);
+      --bg-filter: none;
+      --bg-opacity: 1;
+    }
+
+    html[data-theme="light"] {
+      --bg-base: #eef6ff;
+      --text-main: #0f172a;
+      --text-muted: #334155;
+      --text-footer: #475569;
+      --accent: #0284c7;
+      --accent-2: #6366f1;
+      --accent-glow: rgba(2, 132, 199, 0.22);
+      --btn-text: #ffffff;
+      --card-bg: rgba(255, 255, 255, 0.76);
+      --card-border: rgba(14, 165, 233, 0.26);
+      --panel-bg: rgba(255, 255, 255, 0.94);
+      --input-bg: rgba(241, 245, 249, 0.95);
+      --input-border: rgba(148, 163, 184, 0.45);
+      --bg-overlay: linear-gradient(160deg, rgba(224, 242, 254, 0.82), rgba(237, 233, 254, 0.78));
+      --bg-fallback: linear-gradient(160deg, #dbeafe 0%, #ede9fe 52%, #f8fafc 100%);
+      --bg-filter: invert(0.92) hue-rotate(180deg) saturate(1.25) brightness(1.1);
+      --bg-opacity: 0.45;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+    html { scroll-behavior: smooth; }
+    body {
+      color: var(--text-main);
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background: var(--bg-base);
+      transition: background 0.35s ease, color 0.35s ease;
+      top: 0 !important;
+    }
+
+    /* Hide Google Translate top bar cleanly */
+    .goog-te-banner-frame, .skiptranslate, #goog-gt-tt { display: none !important; }
+
+    /* Live Animated Background */
+    .live-bg {
+      position: fixed;
+      inset: -5%;
+      z-index: -2;
+      background-image: var(--bg-overlay), url('bg.jpg'), var(--bg-fallback);
+      background-size: cover;
+      background-position: center;
+      filter: var(--bg-filter);
+      opacity: var(--bg-opacity);
+      animation: cosmicDrift 24s ease-in-out infinite alternate;
+      transition: filter 0.4s ease, opacity 0.4s ease;
+      will-change: transform;
+    }
+
+    @keyframes cosmicDrift {
+      0%   { transform: scale(1.0) translate(0%, 0%); }
+      50%  { transform: scale(1.08) translate(-1.5%, -1%); }
+      100% { transform: scale(1.04) translate(1.5%, 1%); }
+    }
+
+    #starfield {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    /* Top-Right Settings Icon Button */
+    .settings-fab {
+      position: fixed;
+      top: 14px;
+      right: 14px;
+      z-index: 1000;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid var(--card-border);
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+      transition: transform 0.25s ease, border-color 0.25s ease;
+    }
+    .settings-fab:hover {
+      transform: rotate(35deg) scale(1.06);
+      border-color: var(--accent);
+    }
+
+    /* Settings Modal Backdrop & Panel */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 1100;
+      background: rgba(2, 6, 23, 0.55);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: flex-start;
+      justify-content: flex-end;
+      padding: 68px 14px 14px;
+    }
+    .modal-backdrop.open { display: flex; }
+
+    .settings-panel {
+      width: 100%;
+      max-width: 360px;
+      max-height: calc(100vh - 86px);
+      overflow-y: auto;
+      background: var(--panel-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 1.25rem;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.38);
+      color: var(--text-main);
+    }
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--card-border);
+    }
+    .panel-header h3 { font-size: 1.1rem; color: var(--accent); }
+    .close-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.5rem;
+      line-height: 1;
+      cursor: pointer;
+      padding: 2px 6px;
+    }
+
+    .setting-block { margin-bottom: 1.2rem; }
+    .setting-label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    select, input, textarea {
+      width: 100%;
+      padding: 0.65rem 0.75rem;
+      border-radius: 10px;
+      border: 1px solid var(--input-border);
+      background: var(--input-bg);
+      color: var(--text-main);
+      font-size: 0.92rem;
+      outline: none;
+    }
+    select:focus, input:focus, textarea:focus { border-color: var(--accent); }
+
+    .theme-group {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+    }
+    .theme-btn {
+      padding: 0.55rem 0.4rem;
+      border-radius: 10px;
+      border: 1px solid var(--input-border);
+      background: var(--input-bg);
+      color: var(--text-main);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .theme-btn.active {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: var(--btn-text);
+      border-color: transparent;
+    }
+
+    .support-form { display: flex; flex-direction: column; gap: 0.6rem; }
+    .submit-btn {
+      width: 100%;
+      padding: 0.7rem;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: var(--btn-text);
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 0.92rem;
+    }
+    .email-quick-btn {
+      display: block;
+      text-align: center;
+      padding: 0.6rem;
+      margin-bottom: 0.75rem;
+      border-radius: 10px;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.88rem;
+    }
+    .status-msg { font-size: 0.85rem; margin-top: 0.4rem; font-weight: 600; }
+    .ticket-list {
+      margin-top: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+    .ticket-item {
+      background: var(--input-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 0.55rem 0.7rem;
+      font-size: 0.8rem;
+    }
+    .ticket-item strong { color: var(--accent); display: block; }
+
+    /* Main Page Layout */
+    header {
+      padding: 4.8rem 1.5rem 3.2rem;
+      text-align: center;
+    }
+    header h1 {
+      font-size: 2.35rem;
+      color: var(--accent);
+      text-shadow: 0 0 22px var(--accent-glow);
+      margin-bottom: 0.75rem;
+    }
+    header p {
+      max-width: 600px;
+      margin: 0 auto 1.75rem;
+      color: var(--text-muted);
+    }
+    .btn {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: var(--btn-text);
+      padding: 0.8rem 1.75rem;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 700;
+      box-shadow: 0 6px 20px var(--accent-glow);
+      transition: transform 0.2s ease;
+    }
+    .btn:hover { transform: translateY(-2px); }
+
+    section {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2.2rem 1.5rem;
+    }
+    h2 {
+      font-size: 1.65rem;
+      margin-bottom: 1.4rem;
+      text-align: center;
+      color: var(--text-main);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.25rem;
+    }
+    .card, .contact {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 1.5rem;
+      border-radius: 14px;
+      border: 1px solid var(--card-border);
+      transition: background 0.35s ease, border-color 0.35s ease;
+    }
+    .card h3 { color: var(--accent); margin-bottom: 0.5rem; font-size: 1.1rem; }
+    .card p { color: var(--text-muted); font-size: 0.95rem; }
+    .contact { text-align: center; padding: 2.2rem 1.5rem; }
+    .creator-badge {
+      display: inline-block;
+      padding: 0.35rem 0.9rem;
+      border-radius: 999px;
+      background: var(--input-bg);
+      border: 1px solid var(--card-border);
+      font-size: 0.92rem;
+      margin-bottom: 0.7rem;
+    }
+    .email-link {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.02rem;
+      word-break: break-all;
+    }
+    .email-link:hover { text-decoration: underline; }
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: var(--text-footer);
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="live-bg"></div>
+  <canvas id="starfield"></canvas>
+  <div id="google_translate_element" style="display:none;"></div>
+
+  <!-- Top-Right Settings Icon -->
+  <button class="settings-fab" id="openSettings" aria-label="Settings">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="3"></circle>
+      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+    </svg>
+  </button>
+
+  <!-- Settings Modal -->
+  <div class="modal-backdrop" id="settingsModal">
+    <div class="settings-panel">
+      <div class="panel-header">
+        <h3 data-i18n="settingsTitle">Settings</h3>
+        <button class="close-btn" id="closeSettings" aria-label="Close">&times;</button>
+      </div>
+
+      <!-- Language Selector -->
+      <div class="setting-block">
+        <label class="setting-label" for="langSelect" data-i18n="langLabel">Language (Indian Languages)</label>
+        <select id="langSelect">
+          <option value="en">English</option>
+          <option value="hi">हिन्दी (Hindi)</option>
+          <option value="bn">বাংলা (Bengali)</option>
+          <option value="te">తెలుగు (Telugu)</option>
+          <option value="mr">मराठी (Marathi)</option>
+          <option value="ta">தமிழ் (Tamil)</option>
+          <option value="gu">ગુજરાતી (Gujarati)</option>
+          <option value="ur">اردو (Urdu)</option>
+          <option value="kn">ಕನ್ನಡ (Kannada)</option>
+          <option value="or">ଓଡ଼ିଆ (Odia)</option>
+          <option value="ml">മലയാളം (Malayalam)</option>
+          <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
+          <option value="as">অসমীয়া (Assamese)</option>
+          <option value="mai">मैथिली (Maithili)</option>
+          <option value="sa">संस्कृतम् (Sanskrit)</option>
+          <option value="gom">कोंकणी (Konkani)</option>
+          <option value="doi">डोगरी (Dogri)</option>
+          <option value="ne">नेपाली (Nepali)</option>
+          <option value="sd">سنڌي (Sindhi)</option>
+          <option value="mni-Mtei">মণিপুরী (Manipuri)</option>
+          <option value="bho">भोजपुरी (Bhojpuri)</option>
+        </select>
+      </div>
+
+      <!-- Theme Selector -->
+      <div class="setting-block">
+        <span class="setting-label" data-i18n="themeLabel">Theme</span>
+        <div class="theme-group">
+          <button class="theme-btn" data-set-theme="system">System</button>
+          <button class="theme-btn" data-set-theme="dark">Dark</button>
+          <button class="theme-btn" data-set-theme="light">Light</button>
+        </div>
+      </div>
+
+      <!-- Help & Support -->
+      <div class="setting-block" style="margin-bottom:0;">
+        <span class="setting-label" data-i18n="helpLabel">Help &amp; Support</span>
+        <a class="email-quick-btn" href="mailto:backbencher112x@gmail.com?subject=NexaSoft%20Works%20Support">
+          Direct Email: backbencher112x@gmail.com
+        </a>
+        <form class="support-form" id="supportForm">
+          <input type="text" id="supName" placeholder="Your Name" required />
+          <input type="email" id="supEmail" placeholder="Your Email" required />
+          <textarea id="supIssue" rows="3" placeholder="Describe your problem or complaint..." required></textarea>
+          <button type="submit" class="submit-btn" id="submitBtn">Submit Complaint</button>
+          <div class="status-msg" id="formStatus"></div>
+        </form>
+        <div class="ticket-list" id="ticketList"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <header>
+    <h1>NexaSoft Works</h1>
+    <p data-i18n="heroSub">Complete software solutions—web development, mobile apps, custom tools, automation, and reliable IT support.</p>
+    <a href="#contact" class="btn" data-i18n="ctaBtn">Get in Touch</a>
+  </header>
+
+  <section id="services">
+    <h2 data-i18n="servicesTitle">Our Services</h2>
+    <div class="grid">
+      <div class="card">
+        <h3 data-i18n="s1Title">Web Development</h3>
+        <p data-i18n="s1Desc">Fast, responsive websites and web apps built for businesses and startups.</p>
+      </div>
+      <div class="card">
+        <h3 data-i18n="s2Title">Mobile Apps</h3>
+        <p data-i18n="s2Desc">Clean, user-friendly Android and cross-platform mobile applications.</p>
+      </div>
+      <div class="card">
+        <h3 data-i18n="s3Title">Custom Tools &amp; Automation</h3>
+        <p data-i18n="s3Desc">Scripts, dashboards, and workflow automation to save time and cut manual work.</p>
+      </div>
+      <div class="card">
+        <h3 data-i18n="s4Title">IT &amp; Software Support</h3>
+        <p data-i18n="s4Desc">Troubleshooting, software setup, maintenance, and ongoing technical help.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="contact">
+      <h2 data-i18n="contactTitle">Contact Us</h2>
+      <p style="margin-bottom: 1rem; color: var(--text-muted);" data-i18n="contactSub">Have a software project or need technical help? Reach out anytime.</p>
+      <div class="creator-badge">
+        <span data-i18n="creatorLabel">Founder &amp; Creator:</span> <strong>Anant Mishra</strong>
+      </div>
+      <p>
+        <strong>Email:</strong>
+        <a class="email-link" href="mailto:backbencher112x@gmail.com">backbencher112x@gmail.com</a>
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2026 NexaSoft Works &bull; <span data-i18n="footerCredit">Created &amp; Managed by</span> Anant Mishra
+  </footer>
+
+  <script>
+    /* 1. Settings Modal */
+    const modal = document.getElementById('settingsModal');
+    document.getElementById('openSettings').onclick = () => modal.classList.add('open');
+    document.getElementById('closeSettings').onclick = () => modal.classList.remove('open');
+    modal.onclick = (e) => { if (e.target === modal) modal.classList.remove('open'); };
+
+    /* 2. Smart Theme Engine (System / Dark / Light) synced with Live Wallpaper */
+    const themeBtns = document.querySelectorAll('[data-set-theme]');
+    const sysMedia = window.matchMedia('(prefers-color-scheme: dark)');
+    let currentThemeMode = localStorage.getItem('nexa_theme') || 'system';
+
+    function applyTheme(mode) {
+      currentThemeMode = mode;
+      localStorage.setItem('nexa_theme', mode);
+      const resolved = mode === 'system' ? (sysMedia.matches ? 'dark' : 'light') : mode;
+      document.documentElement.setAttribute('data-theme', resolved);
+      themeBtns.forEach(b => b.classList.toggle('active', b.dataset.setTheme === mode));
+    }
+
+    themeBtns.forEach(b => b.addEventListener('click', () => applyTheme(b.dataset.setTheme)));
+    sysMedia.addEventListener('change', () => { if (currentThemeMode === 'system') applyTheme('system'); });
+    applyTheme(currentThemeMode);
+
+    /* 3. Instant English/Hindi + All Indian Languages (Google Translate Bridge) */
+    const i18n = {
+      en: {
+        settingsTitle: "Settings",
+        langLabel: "Language (Indian Languages)",
+        themeLabel: "Theme",
+        helpLabel: "Help & Support",
+        heroSub: "Complete software solutions—web development, mobile apps, custom tools, automation, and reliable IT support.",
+        ctaBtn: "Get in Touch",
+        servicesTitle: "Our Services",
+        s1Title: "Web Development",
+        s1Desc: "Fast, responsive websites and web apps built for businesses and startups.",
+        s2Title: "Mobile Apps",
+        s2Desc: "Clean, user-friendly Android and cross-platform mobile applications.",
+        s3Title: "Custom Tools & Automation",
+        s3Desc: "Scripts, dashboards, and workflow automation to save time and cut manual work.",
+        s4Title: "IT & Software Support",
+        s4Desc: "Troubleshooting, software setup, maintenance, and ongoing technical help.",
+        contactTitle: "Contact Us",
+        contactSub: "Have a software project or need technical help? Reach out anytime.",
+        creatorLabel: "Founder & Creator:",
+        footerCredit: "Created & Managed by"
+      },
+      hi: {
+        settingsTitle: "सेटिंग्स",
+        langLabel: "भाषा (भारतीय भाषाएँ)",
+        themeLabel: "थीम",
+        helpLabel: "मदद और सहायता (Help & Support)",
+        heroSub: "संपूर्ण सॉफ्टवेयर समाधान—वेब डेवलपमेंट, मोबाइल ऐप्स, कस्टम टूल्स, ऑटोमेशन और भरोसेमंद IT सपोर्ट।",
+        ctaBtn: "संपर्क करें",
+        servicesTitle: "हमारी सेवाएँ",
+        s1Title: "वेब डेवलपमेंट",
+        s1Desc: "बिज़नेस और स्टार्टअप्स के लिए तेज़, रेस्पॉन्सिव वेबसाइट्स और वेब ऐप्स।",
+        s2Title: "मोबाइल ऐप्स",
+        s2Desc: "क्लीन और यूज़र-फ्रेंडली Android व क्रॉस-प्लेटफ़ॉर्म मोबाइल एप्लिकेशन।",
+        s3Title: "कस्टम टूल्स और ऑटोमेशन",
+        s3Desc: "समय बचाने और मैनुअल काम कम करने के लिए स्क्रिप्ट्स, डैशबोर्ड्स और ऑटोमेशन।",
+        s4Title: "IT और सॉफ्टवेयर सपोर्ट",
+        s4Desc: "ट्रबलशूटिंग, सॉफ्टवेयर सेटअप, मेंटेनेंस और लगातार तकनीकी सहायता।",
+        contactTitle: "हमसे संपर्क करें",
+        contactSub: "कोई सॉफ्टवेयर प्रोजेक्ट या तकनीकी मदद चाहिए? कभी भी संपर्क करें।",
+        creatorLabel: "संस्थापक और निर्माता:",
+        footerCredit: "निर्माता एवं संचालक:"
+      }
+    };
+
+    const langSelect = document.getElementById('langSelect');
+    const savedLang = localStorage.getItem('nexa_lang') || 'en';
+    langSelect.value = savedLang;
+
+    function applyLocalLang(lang) {
+      const dict = i18n[lang] || i18n.en;
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key]) el.textContent = dict[key];
+      });
+    }
+
+    function setGoogleTranslateCookie(lang) {
+      const val = lang === 'en' ? '' : `/en/${lang}`;
+      document.cookie = `googtrans=${val};path=/`;
+      document.cookie = `googtrans=${val};path=/;dom
