@@ -57,10 +57,8 @@
       top: 0 !important;
     }
 
-    /* Hide Google Translate top bar cleanly */
     .goog-te-banner-frame, .skiptranslate, #goog-gt-tt { display: none !important; }
 
-    /* Live Animated Background */
     .live-bg {
       position: fixed;
       inset: -5%;
@@ -90,7 +88,6 @@
       pointer-events: none;
     }
 
-    /* Top-Right Settings Icon Button */
     .settings-fab {
       position: fixed;
       top: 14px;
@@ -116,7 +113,6 @@
       border-color: var(--accent);
     }
 
-    /* Settings Modal Backdrop & Panel */
     .modal-backdrop {
       position: fixed;
       inset: 0;
@@ -248,7 +244,6 @@
     }
     .ticket-item strong { color: var(--accent); display: block; }
 
-    /* Main Page Layout */
     header {
       padding: 4.8rem 1.5rem 3.2rem;
       text-align: center;
@@ -344,7 +339,6 @@
   <canvas id="starfield"></canvas>
   <div id="google_translate_element" style="display:none;"></div>
 
-  <!-- Top-Right Settings Icon -->
   <button class="settings-fab" id="openSettings" aria-label="Settings">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="12" cy="12" r="3"></circle>
@@ -352,7 +346,6 @@
     </svg>
   </button>
 
-  <!-- Settings Modal -->
   <div class="modal-backdrop" id="settingsModal">
     <div class="settings-panel">
       <div class="panel-header">
@@ -360,7 +353,6 @@
         <button class="close-btn" id="closeSettings" aria-label="Close">&times;</button>
       </div>
 
-      <!-- Language Selector -->
       <div class="setting-block">
         <label class="setting-label" for="langSelect" data-i18n="langLabel">Language (Indian Languages)</label>
         <select id="langSelect">
@@ -388,7 +380,6 @@
         </select>
       </div>
 
-      <!-- Theme Selector -->
       <div class="setting-block">
         <span class="setting-label" data-i18n="themeLabel">Theme</span>
         <div class="theme-group">
@@ -398,7 +389,6 @@
         </div>
       </div>
 
-      <!-- Help & Support -->
       <div class="setting-block" style="margin-bottom:0;">
         <span class="setting-label" data-i18n="helpLabel">Help &amp; Support</span>
         <a class="email-quick-btn" href="mailto:backbencher112x@gmail.com?subject=NexaSoft%20Works%20Support">
@@ -416,7 +406,6 @@
     </div>
   </div>
 
-  <!-- Main Content -->
   <header>
     <h1>NexaSoft Works</h1>
     <p data-i18n="heroSub">Complete software solutions—web development, mobile apps, custom tools, automation, and reliable IT support.</p>
@@ -434,10 +423,10 @@
         <h3 data-i18n="s2Title">Mobile Apps &amp; Guides &rarr;</h3>
         <p data-i18n="s2Desc">Network problem fixes, WhatsApp privacy levels, YouTube quality settings &amp; mobile solutions.</p>
       </a>
-      <div class="card">
-        <h3 data-i18n="s3Title">Custom Tools &amp; Automation</h3>
-        <p data-i18n="s3Desc">Scripts, dashboards, and workflow automation to save time and cut manual work.</p>
-      </div>
+      <a href="tools.html" class="card">
+        <h3 data-i18n="s3Title">Custom Tools &amp; Automation &rarr;</h3>
+        <p data-i18n="s3Desc">QR Code Generator (Link, UPI, Wi-Fi, WhatsApp) &amp; daily smart tools.</p>
+      </a>
       <div class="card">
         <h3 data-i18n="s4Title">IT &amp; Software Support</h3>
         <p data-i18n="s4Desc">Troubleshooting, software setup, maintenance, and ongoing technical help.</p>
@@ -464,30 +453,28 @@
   </footer>
 
   <script>
-    /* 1. Settings Modal */
     const modal = document.getElementById('settingsModal');
     document.getElementById('openSettings').onclick = () => modal.classList.add('open');
     document.getElementById('closeSettings').onclick = () => modal.classList.remove('open');
     modal.onclick = (e) => { if (e.target === modal) modal.classList.remove('open'); };
 
-    /* 2. Smart Theme Engine (System / Dark / Light) synced with Live Wallpaper */
     const themeBtns = document.querySelectorAll('[data-set-theme]');
     const sysMedia = window.matchMedia('(prefers-color-scheme: dark)');
-    let currentThemeMode = localStorage.getItem('nexa_theme') || 'system';
+    let currentThemeMode = 'system';
+    try { currentThemeMode = localStorage.getItem('nexa_theme') || 'system'; } catch (e) {}
 
     function applyTheme(mode) {
       currentThemeMode = mode;
-      localStorage.setItem('nexa_theme', mode);
+      try { localStorage.setItem('nexa_theme', mode); } catch (e) {}
       const resolved = mode === 'system' ? (sysMedia.matches ? 'dark' : 'light') : mode;
       document.documentElement.setAttribute('data-theme', resolved);
       themeBtns.forEach(b => b.classList.toggle('active', b.dataset.setTheme === mode));
     }
 
     themeBtns.forEach(b => b.addEventListener('click', () => applyTheme(b.dataset.setTheme)));
-    sysMedia.addEventListener('change', () => { if (currentThemeMode === 'system') applyTheme('system'); });
+    if (sysMedia.addEventListener) sysMedia.addEventListener('change', () => { if (currentThemeMode === 'system') applyTheme('system'); });
     applyTheme(currentThemeMode);
 
-    /* 3. Instant English/Hindi + All Indian Languages (Google Translate Bridge) */
     const i18n = {
       en: {
         settingsTitle: "Settings",
@@ -501,8 +488,8 @@
         s1Desc: "Fast, responsive websites and web apps built for businesses and startups.",
         s2Title: "Mobile Apps & Guides →",
         s2Desc: "Network problem fixes, WhatsApp privacy levels, YouTube quality settings & mobile solutions.",
-        s3Title: "Custom Tools & Automation",
-        s3Desc: "Scripts, dashboards, and workflow automation to save time and cut manual work.",
+        s3Title: "Custom Tools & Automation →",
+        s3Desc: "QR Code Generator (Link, UPI, Wi-Fi, WhatsApp) & daily smart tools.",
         s4Title: "IT & Software Support",
         s4Desc: "Troubleshooting, software setup, maintenance, and ongoing technical help.",
         contactTitle: "Contact Us",
@@ -522,8 +509,8 @@
         s1Desc: "बिज़नेस और स्टार्टअप्स के लिए तेज़, रेस्पॉन्सिव वेबसाइट्स और वेब ऐप्स।",
         s2Title: "मोबाइल ऐप्स और गाइड्स →",
         s2Desc: "नेटवर्क प्रॉब्लम फिक्स, WhatsApp प्राइवेसी लेवल, YouTube क्वालिटी सेटिंग्स और मोबाइल सॉल्यूशन।",
-        s3Title: "कस्टम टूल्स और ऑटोमेशन",
-        s3Desc: "समय बचाने और मैनुअल काम कम करने के लिए स्क्रिप्ट्स, डैशबोर्ड्स और ऑटोमेशन।",
+        s3Title: "कस्टम टूल्स और ऑटोमेशन →",
+        s3Desc: "QR कोड जनरेटर (लिंक, UPI, Wi-Fi, WhatsApp) और रोज़ाना के स्मार्ट टूल्स।",
         s4Title: "IT और सॉफ्टवेयर सपोर्ट",
         s4Desc: "ट्रबलशूटिंग, सॉफ्टवेयर सेटअप, मेंटेनेंस और लगातार तकनीकी सहायता।",
         contactTitle: "हमसे संपर्क करें",
@@ -534,9 +521,22 @@
     };
 
     const langSelect = document.getElementById('langSelect');
-    const savedLang = localStorage.getItem('nexa_lang') || 'en';
+    let savedLang = 'en';
+    try { savedLang = localStorage.getItem('nexa_lang') || 'en'; } catch (e) {}
     langSelect.value = savedLang;
 
     function applyLocalLang(lang) {
       const dict = i18n[lang] || i18n.en;
-      document.querySelectorAll('[da
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key]) el.textContent = dict[key];
+      });
+    }
+
+    function setGoogleTranslateCookie(lang) {
+      const val = lang === 'en' ? '' : `/en/${lang}`;
+      document.cookie = `googtrans=${val};path=/`;
+      document.cookie = `googtrans=${val};path=/;domain=${location.hostname}`;
+    }
+
+    if (savedLang === 'en' || sav
