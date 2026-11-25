@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IT &amp; Software Support Hub | NexaSoft Works</title>
+  <style>
+    :root {
+      --bg-base: #020617;
+      --text-main: #f8fafc;
+      --text-muted: #cbd5e1;
+      --text-footer: #94a3b8;
+      --accent: #38bdf8;
+      --accent-2: #818cf8;
+      --accent-glow: rgba(56, 189, 248, 0.4);
+      --btn-text: #020617;
+      --card-bg: rgba(15, 23, 42, 0.68);
+      --card-border: rgba(148, 163, 184, 0.28);
+      --input-bg: rgba(30, 41, 59, 0.86);
+      --bg-overlay: linear-gradient(to bottom, rgba(0, 0, 0, 0.35), rgba(4, 18, 42, 0.38));
+      --bg-fallback: radial-gradient(circle at 50% 105%, #1d4ed8 0%, #581c87 28%, #07142b 60%, #000000 100%);
+      --bg-filter: none;
+      --bg-opacity: 1;
+    }
+    html[data-theme="light"] {
+      --bg-base: #eef6ff;
+      --text-main: #0f172a;
+      --text-muted: #334155;
+      --text-footer: #475569;
+      --accent: #0284c7;
+      --accent-2: #6366f1;
+      --accent-glow: rgba(2, 132, 199, 0.22);
+      --btn-text: #ffffff;
+      --card-bg: rgba(255, 255, 255, 0.86);
+      --card-border: rgba(14, 165, 233, 0.28);
+      --input-bg: rgba(241, 245, 249, 0.96);
+      --bg-overlay: linear-gradient(160deg, rgba(224, 242, 254, 0.84), rgba(237, 233, 254, 0.8));
+      --bg-fallback: linear-gradient(160deg, #dbeafe 0%, #ede9fe 52%, #f8fafc 100%);
+      --bg-filter: invert(0.92) hue-rotate(180deg) saturate(1.25) brightness(1.1);
+      --bg-opacity: 0.45;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+    body { color: var(--text-main); line-height: 1.6; min-height: 100vh; overflow-x: hidden; background: var(--bg-base); top: 0 !important; }
+    .goog-te-banner-frame, .skiptranslate, #goog-gt-tt { display: none !important; }
+
+    .live-bg {
+      position: fixed; inset: -5%; z-index: -2;
+      background-image: var(--bg-overlay), url('bg.jpg'), var(--bg-fallback);
+      background-size: cover; background-position: center;
+      filter: var(--bg-filter); opacity: var(--bg-opacity);
+      animation: cosmicDrift 24s ease-in-out infinite alternate;
+    }
+    @keyframes cosmicDrift {
+      0% { transform: scale(1.0) translate(0%, 0%); }
+      50% { transform: scale(1.08) translate(-1.5%, -1%); }
+      100% { transform: scale(1.04) translate(1.5%, 1%); }
+    }
+    #starfield { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+
+    .topbar { max-width: 960px; margin: 0 auto; padding: 1rem 1.15rem 0; display: flex; align-items: center; justify-content: space-between; }
+    .nav-pill {
+      display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.5rem 0.95rem;
+      border-radius: 999px; background: var(--card-bg); border: 1px solid var(--card-border);
+      backdrop-filter: blur(10px); color: var(--text-main); text-decoration: none;
+      font-size: 0.88rem; font-weight: 600;
+    }
+    header { max-width: 960px; margin: 0 auto; padding: 1.4rem 1.15rem 0.8rem; text-align: center; }
+    header h1 { font-size: 1.88rem; color: var(--accent); text-shadow: 0 0 18px var(--accent-glow); margin-bottom: 0.35rem; }
+    header p { color: var(--text-muted); font-size: 0.92rem; max-width: 580px; margin: 0 auto; }
+
+    .wrap { max-width: 960px; margin: 0 auto; padding: 0.5rem 1.1rem 2.5rem; }
+
+    .search-form { display: flex; gap: 0.45rem; margin-bottom: 0.65rem; }
+    .search-box {
+      flex: 1; min-width: 0; padding: 0.75rem 0.95rem; border-radius: 12px;
+      border: 1px solid var(--card-border); background: var(--card-bg); color: var(--text-main);
+      font-size: 0.94rem; outline: none;
+    }
+    .search-box:focus { border-color: var(--accent); }
+    .search-btn {
+      padding: 0.75rem 1.05rem; border-radius: 12px; border: none;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: var(--btn-text);
+      font-weight: 700; font-size: 0.9rem; cursor: pointer;
+    }
+    .clear-btn {
+      display: none; padding: 0.75rem 0.85rem; border-radius: 12px;
+      border: 1px solid var(--card-border); background: var(--card-bg); color: var(--text-muted);
+      font-weight: 700; font-size: 0.9rem; cursor: pointer;
+    }
+    .search-status { font-size: 0.82rem; color: var(--accent); margin-bottom: 0.6rem; min-height: 1.1rem; font-weight: 600; }
+
+    .cat-radio { display: none; }
+    .cat-tabs { display: flex; gap: 0.45rem; overflow-x: auto; padding-bottom: 0.9rem; scrollbar-width: none; }
+    .cat-tabs::-webkit-scrollbar { display: none; }
+    .cat-btn {
+      flex: 0 0 auto; padding: 0.48rem 0.92rem; border-radius: 999px; border: 1px solid var(--card-border);
+      background: var(--card-bg); color: var(--text-main); font-size: 0.84rem; font-weight: 600; cursor: pointer; user-select: none;
+    }
+
+    #c-all:checked ~ .cat-tabs label[for="c-all"],
+    #c-win:checked ~ .cat-tabs label[for="c-win"],
+    #c-net:checked ~ .cat-tabs label[for="c-net"],
+    #c-sec:checked ~ .cat-tabs label[for="c-sec"],
+    #c-tip:checked ~ .cat-tabs label[for="c-tip"] {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: var(--btn-text);
+      border-color: transparent;
+    }
+
+    #c-win:checked ~ .guides-list details:not(.cat-win),
+    #c-net:checked ~ .guides-list details:not(.cat-net),
+    #c-sec:checked ~ .guides-list details:not(.cat-sec),
+    #c-tip:checked ~ .guides-list details:not(.cat-tip) {
+      display: none;
+    }
+
+    .guides-list { display: flex; flex-direction: column; gap: 0.85rem; }
+    details.guide-card {
+      background: var(--card-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden;
+    }
+    details.guide-card[open] { border-color: var(--accent); }
+    summary {
+      list-style: none; padding: 1.05rem 1.1rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;
+    }
+    summary::-webkit-details-marker { display: none; }
+    .sum-left { display: flex; align-items: center; gap: 0.75rem; }
+    .icon { font-size: 1.45rem; flex-shrink: 0; }
+    .sum-title { font-size: 1rem; font-weight: 700; color: var(--accent); display: block; line-height: 1.3; }
+    .sum-sub { font-size: 0.8rem; color: var(--text-muted); display: block; margin-top: 0.12rem; }
+    .arrow { color: var(--accent); font-size: 1.05rem; transition: transform 0.2s ease; }
+    details[open] .arrow { transform: rotate(180deg); }
+
+    .guide-body { padding: 0 1.1rem 1.15rem; border-top: 1px solid var(--card-border); }
+    .sub-block { margin-top: 0.85rem; padding: 0.85rem 0.95rem; border-radius: 12px; background: var(--input-bg); border: 1px solid var(--card-border); }
+    .sub-block h3 { font-size: 0.94rem; color: var(--accent); margin-bottom: 0.42rem; }
+    .step-list { padding-left: 1.15rem; color: var(--text-muted); font-size: 0.89rem; }
+    .step-list li { margin-bottom: 0.38rem; }
+    .step-list strong { color: var(--text-main); }
+    code {
+      background: rgba(56, 189, 248, 0.15); color: var(--accent);
+      padding: 0.1rem 0.38rem; border-radius: 6px; font-family: monospace; font-size: 0.86rem;
+    }
+    .tip-box {
+      margin-top: 0.85rem; padding: 0.72rem 0.9rem; border-left: 3px solid var(--accent);
+      background: rgba(56, 189, 248, 0.1); border-radius: 0 10px 10px 0; font-size: 0.85rem; color: var(--text-muted);
+    }
+
+    .help-banner {
+      margin-top: 1.6rem; padding: 1.35rem 1.2rem; border-radius: 16px; text-align: center;
+      background: var(--card-bg); border: 1px solid var(--card-border); backdrop-filter: blur(12px);
+    }
+    .help-banner h3 { color: var(--accent); margin-bottom: 0.35rem; }
+    .help-banner p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.9rem; }
+    .cta-btn {
+      display: inline-block; padding: 0.65rem 1.35rem; border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: var(--btn-text);
+      text-decoration: none; font-weight: 700; font-size: 0.9rem;
+    }
+    footer { text-align: center; padding: 1.5rem 1rem 2rem; color: var(--text-footer); font-size: 0.88rem; }
+  </style>
+</head>
+<body>
+  <div class="live-bg"></div>
+  <canvas id="starfield"></canvas>
+  <div id="google_translate_element" style="display:none;"></div>
+
+  <div class="topbar">
+    <a href="index.html" class="nav-pill">&larr; Home</a>
+    <span style="font-size:0.85rem; color:var(--text-muted); font-weight:600;">NexaSoft Works</span>
+  </div>
+
+  <header>
+    <h1>IT &amp; Software Support Hub</h1>
+    <p>12 deep troubleshooting guides for Windows PCs, laptops, Wi-Fi, software errors, virus removal &amp; keyboard shortcuts.</p>
+  </header>
+
+  <div class="wrap">
+    <form class="search-form" onsubmit="runSearch(event)">
+      <input type="text" id="searchInput" class="search-box" oninput="runSearch()" placeholder="Search PC problem (slow, wifi, virus, bsod, shortcut, battery)..." />
+      <button type="button" id="clearBtn" class="clear-btn" onclick="clearSearch()">&times;</button>
+      <button type="submit" class="search-btn">Search</button>
+    </form>
+    <div class="search-status" id="searchStatus"></div>
+
+    <input class="cat-radio" type="radio" name="cat" id="c-all" checked />
+    <input class="cat-radio" type="radio" name="cat" id="c-win" />
+    <input class="cat-radio" type="radio" name="cat" id="c-net" />
+    <input class="cat-radio" type="radio" name="cat" id="c-sec" />
+    <input class="cat-radio" type="radio" name="cat" id="c-tip" />
+
+    <div class="cat-tabs">
+      <label for="c-all" class="cat-btn" onclick="resetSearchOnTab()">All (12)</label>
+      <label for="c-win" class="cat-btn" onclick="resetSearchOnTab()">Windows &amp; Speed (3)</label>
+      <label for="c-net" class="cat-btn" onclick="resetSearchOnTab()">Wi-Fi &amp; Hardware (3)</label>
+      <label for="c-sec" class="cat-btn" onclick="resetSearchOnTab()">Security &amp; Software (3)</label>
+      <label for="c-tip" class="cat-btn" onclick="resetSearchOnTab()">Shortcuts &amp; Pro Tips (3)</label>
+    </div>
+
+    <div class="guides-list">
+      <details class="guide-card cat-win" open>
+        <summary><div class="sum-left"><span class="icon">🚀</span><div><span class="sum-title">1. Slow Laptop &amp; Windows Hang Fix</span><span class="sum-sub">Startup apps, temp junk &amp; speed boost</span></div></div><span class="arrow">&#9662;</span></summary>
+        <div class="guide-body">
+          <div class="sub-block"><h3>Step 1: Disable Heavy Startup Apps</h3><ol class="step-list"><li>Press <code>Ctrl + Shift + Esc</code> to open <strong>Task Manager</strong> &rarr; go to <strong>Startup apps</strong>.</li><li>Right-click heavy apps you don't need at boot (Spotify, Teams, Steam, OneDrive) and select <strong>Disable</strong>.</li></ol></div>
+          <div class="sub-block"><h3>Step 2: Clean Temporary Junk Files</h3><ol class="step-list"><li>Press <code>Win + R</code>, type <code>%temp%</code> and press Enter &rarr; select all (<code>Ctrl + A</code>) &rarr; Delete (skip files currently in use).</li><li>Repeat with <code>temp</code> and enable <strong>Settings &rarr; System &rarr; Storage &rarr; Storage Sense</strong>.</li></ol></div>
+          <div class="tip-box"><strong>Hardware Tip:</strong> If your laptop uses an old HDD and takes 2+ minutes to boot, upgrading to an SSD makes it 5x faster.</div>
+        </div>
+      </details>
+
+      <details class="guide-card cat-win">
+        <summary><div class="sum-left"><span class="icon">🌡️</span><div><span class="sum-title">2. Laptop Overheating &amp; Loud Fan Fix</span><span class="sum-sub">Airflow, CPU load &amp; power plan control</span></div></div><span class="arrow">&#9662;</span></summary>
+        <div class="guide-body">
+          <div class="sub-block"><h3>Step 1: Fix Airflow Immediately</h3><ol class="step-list"><li>Never use a laptop directly on a <strong>bed, pillow, or blanket</strong>—it blocks bottom air vents and traps heat.</li><li>Use a flat desk or slightly lift the back edge for airflow; gently clean dust from vents with dry air.</li></ol></div>
+          <div class="sub-block"><h3>Step 2: Lower Background CPU Heat</h3><ol class="step-list"><li>Open <strong>Task Manager &rarr; Processes</strong> and sort by <strong>CPU</strong> to close any stuck app using 50%+ CPU.</li><li>Open <strong>Settings &rarr; System &rarr; Power &amp; battery</strong> and switch Power mode to <strong>Balanced</strong> (instead of Best Performance) for everyday work.</li></ol></div>
+        </div>
+      </details>
+
+      <details class="guide-card cat-win">
+        <summary><div class="sum-left"><span class="icon">🟦</span><div><span class="sum-title">3. Blue Screen (BSOD) &amp; Corrupted System Fix</span><span class="sum-sub">Safe Mode, SFC &amp; DISM repair commands</span></div></div><span class="arrow">&#9662;</span></summary>
+        <div class="guide-body">
+          <div class="sub-block"><h3>Step 1: Repair Corrupted Windows Files</h3><ol class="step-list"><li>Click Start, type <strong>cmd</strong>, right-click <strong>Command Prompt</strong> &rarr; <strong>Run as administrator</strong>.</li><li>Run: <code>DISM /Online /Cleanup-Image /RestoreHealth</code> and wait until 100%.</li><li>Then run: <code>sfc /scannow</code> and restart your PC when done.</li></ol></div>
+          <div class="sub-block"><h3>Step 2: Check Recent Drivers / Updates</h3><ol class="step-list"><li>Note the stop code on the Blue Screen (e.g. <em>MEMORY_MANAGEMENT</em> or <em>VIDEO_TDR_FAILURE</em>).</li><li>Update graphics/chipset drivers via <strong>Windows Update &rarr; Advanced options &rarr; Optional updates</strong>.</li></ol></div>
+        </div>
+      </details>
+
+      <details class="guide-card cat-net">
+        <summary><div class="sum-left"><span class="icon">📡</span><div><span class="sum-title">4. Laptop Wi-Fi Not Connecting / No Internet</span><span class="sum-sub">DNS flush, IP reset &amp; Wi-Fi driver fix</span></div></div><span class="arrow">&#9662;</span></summary>
+        <div class="guide-body">
+          <div class="sub-block"><h3>Step 1: Refresh Network via Command Prompt</h3><ol class="step-list"><li>Open <strong>Command Prompt (Admin)</strong> and run these 3 commands one by one:</li><li><code>ipconfig /flushdns</code></li><li><code>netsh winsock reset</code> &amp; <code>netsh int ip reset</code> &rarr; then restart your PC.</li></ol></div>
+          <div class="sub-block"><h3>Step 2: Built-In Windows Network Reset</h3><ol class="step-list"><li>Go to <strong>Settings &rarr; Network &amp; internet &rarr; Advanced network settings &rarr; Network reset &rarr; Reset now</strong>.</li><li>If the Wi-Fi icon is completely missing, open <strong>Device Manager &rarr; Network adapters</strong>, right-click your Wi-Fi adapter &rarr; <strong>Enable</strong> (or Uninstall &rarr; Restart to auto-reinstall).</li></ol></div>
+        </div>
+      </details>
+
+      <details class="guide-card cat-net">
+        <summary><div class="sum-left"><span class="icon">🎧</span><div><span class="sum-title">5. PC Sound, Mic or Bluetooth Not Working</span><span class="sum-sub">Output device, privacy mic &amp; audio restart</span></div></div><span class="arrow">&#9662;</span></summary>
+        <div class="guide-body">
+          <div class="sub-block"><h3>Step 1: Check Output &amp; Mic Permissions</h3><ol class="step-list"><li>Click the <strong>Speaker icon</strong> on the taskbar &rarr; tap the arrow next to volume &rarr; select the right speakers/headphones.</li><li>For Microphone: go to <strong>Settings &rarr; Privacy &amp; security &rarr; Microphone</strong> and make sure <strong>Microphone access</strong> is ON.</li></ol></div>
+          <div class="sub-block"><h3>Step 2: Restart Windows Audio Service</h3><ol class="step-list"><li>Press <code>Win + R</code>, type <code>services.msc</code> &rarr; find <strong>Windows Audio</strong> &rarr; right-click &rarr; <strong>Restart</strong>.</li></ol></div>
+        </div>
+      </details>
+
+      <details class="guide-card cat-net">
+        <summary><div class="sum-left"><span class="icon">🖨️</span><div><span class="sum-title">6. Printer Stuck or USB Pendrive Not Showing</span><span class="sum-sub">Print Spooler restart &amp; Drive Letter fix</span></div></div><span class="arrow">&#9662;</span></summary>
+        <div class="guide-body">
+          <div class="sub-block"><h3>Fix Stuck Printer Queue</h3><ol class="step-list"><li>Press <code>Win + R</code> &rarr; type <code>services.msc</code> &rarr; right-click <strong>Print Spooler</strong> &rarr; <strong>Restart</strong>.</li><li>Unplug the printer power cord for 30 seconds and reconnect.</li></ol></div>
+          <div class="sub-block"><h3>Fix USB Drive Connected But Not Showing</h3><ol class="step-list"><li>Right-click the <strong>Start button &rarr; Disk Management</strong>.</li><li>Find your USB drive at the bottom &rarr; right-click it &rarr; <strong>Change Drive Letter and Paths &rarr; Add</strong> (pick any letter like E: or F:).</li></ol></div>
+        </div>
+      </details>
+
+      <details class="guide-card cat-sec">
+        <summary><div class="sum-left"><span class="icon">🛡️</span><div><span class="sum-title">7. Remove Virus, Malware &amp; Browser Pop-Ups</span><span class="sum-sub">Windows Defender Offline Scan &amp; cleanup</span></div></div><span class="arrow">&#9662;</span></summary>
+        <div class="guide-body">
+          <div class="sub-block"><h3>Step 1: Run Microsoft Defender Offline Scan (Free &amp; Deep)</h3><ol class="step-list"><li>Open <strong>Windows Security &rarr; Virus &amp; threat protection &rarr; Scan options</strong>.</li><li>Select <strong>Microsoft Defender Antivirus (offline scan)</strong> &rarr; click <strong>Scan now</strong> (PC restarts and removes deep rootkits safely).</li></ol></div>
+          <div class="sub-block"><h3>Step 2: Clean Browser Hijackers</h3><ol class="step-list"><li>In Chrome/Edge, remove unknown extensions (<code>chrome://extensions</code>) and reset spam site notifications.</li><li>Uninstall suspicious programs under <strong>Settings &rarr; Apps &rarr; Installed apps</strong>.</li></ol></div>
+        </div>
+      </details>
+
+      <details class="guide-card cat-sec">
+        <summary><div class="sum-left"><span class="icon">📦</span><div><span class="sum-title">8. Essential Free Software for a New PC</span><span class="sum-sub">Safe, clean tools without ads or bloatware</span></div></div><span class="arrow">&#9662;</span></summary>
+        <div class="guide-body">
+          <div class="sub-block"><h3>Must-Have Free &amp; Trusted Apps</h3><ol class="step-list"><li><strong>Media Player:</strong> VLC Media Player (plays every video/audio format).</li><li><strong>ZIP / RAR Extractor:</strong> 7-Zip (lightweight, zero pop-ups).</li><li><strong>Office &amp; PDF:</strong> LibreOffice (free Word/Excel/PPT alternative) + Chrome/Edge built-in PDF viewer.</li><li><strong>Coding:</strong> Visual Studio Code (VS Code) + Git.</li><li><strong>1-Click Installer:</strong> Visit <strong>ninite.com</strong> to install multiple official apps together with zero bundled junk.</li></ol></div>
+        </div>
+      </details>
+
+      <details class="guide-card cat-sec">
+        <summary><div class="sum-left"><span class="icon">🧩</span><div><span class="sum-title">9. Fix "Missing DLL" or App Won't Open Error</span><span class="sum-sub">Visual C++, DirectX &amp; compatibility fix</span></div></div><span class="arrow">&#9662;</span></summary>
+        <div class="guide-body">
+          <div class="sub-block"><h3>Step 1: Install Official Runtimes (Never Download Random DLLs!)</h3><ol class="step-list"><li>Download &amp; install the official <strong>Microsoft Visual C++ Redistributable (x64 &amp; x86)</strong> from microsoft.com—this fixes 90% of <code>vcruntime140.dll</code> and <code>msvcp140.dl
