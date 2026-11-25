@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Custom Tools &amp; QR Code Generator | NexaSoft Works</title>
+  <style>
+    :root {
+      --bg-base: #020617;
+      --text-main: #f8fafc;
+      --text-muted: #cbd5e1;
+      --text-footer: #94a3b8;
+      --accent: #38bdf8;
+      --accent-2: #818cf8;
+      --accent-glow: rgba(56, 189, 248, 0.4);
+      --btn-text: #020617;
+      --card-bg: rgba(15, 23, 42, 0.68);
+      --card-border: rgba(148, 163, 184, 0.28);
+      --input-bg: rgba(30, 41, 59, 0.88);
+      --bg-overlay: linear-gradient(to bottom, rgba(0, 0, 0, 0.35), rgba(4, 18, 42, 0.38));
+      --bg-fallback: radial-gradient(circle at 50% 105%, #1d4ed8 0%, #581c87 28%, #07142b 60%, #000000 100%);
+      --bg-filter: none;
+      --bg-opacity: 1;
+    }
+    html[data-theme="light"] {
+      --bg-base: #eef6ff;
+      --text-main: #0f172a;
+      --text-muted: #334155;
+      --text-footer: #475569;
+      --accent: #0284c7;
+      --accent-2: #6366f1;
+      --accent-glow: rgba(2, 132, 199, 0.22);
+      --btn-text: #ffffff;
+      --card-bg: rgba(255, 255, 255, 0.86);
+      --card-border: rgba(14, 165, 233, 0.28);
+      --input-bg: rgba(241, 245, 249, 0.96);
+      --bg-overlay: linear-gradient(160deg, rgba(224, 242, 254, 0.84), rgba(237, 233, 254, 0.8));
+      --bg-fallback: linear-gradient(160deg, #dbeafe 0%, #ede9fe 52%, #f8fafc 100%);
+      --bg-filter: invert(0.92) hue-rotate(180deg) saturate(1.25) brightness(1.1);
+      --bg-opacity: 0.45;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+    body { color: var(--text-main); line-height: 1.6; min-height: 100vh; overflow-x: hidden; background: var(--bg-base); top: 0 !important; }
+    .goog-te-banner-frame, .skiptranslate, #goog-gt-tt { display: none !important; }
+
+    .live-bg {
+      position: fixed; inset: -5%; z-index: -2;
+      background-image: var(--bg-overlay), url('bg.jpg'), var(--bg-fallback);
+      background-size: cover; background-position: center;
+      filter: var(--bg-filter); opacity: var(--bg-opacity);
+      animation: cosmicDrift 24s ease-in-out infinite alternate;
+    }
+    @keyframes cosmicDrift {
+      0% { transform: scale(1.0) translate(0%, 0%); }
+      50% { transform: scale(1.08) translate(-1.5%, -1%); }
+      100% { transform: scale(1.04) translate(1.5%, 1%); }
+    }
+    #starfield { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+
+    .topbar { max-width: 920px; margin: 0 auto; padding: 1rem 1.15rem 0; display: flex; align-items: center; justify-content: space-between; }
+    .nav-pill {
+      display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.5rem 0.95rem;
+      border-radius: 999px; background: var(--card-bg); border: 1px solid var(--card-border);
+      backdrop-filter: blur(10px); color: var(--text-main); text-decoration: none;
+      font-size: 0.88rem; font-weight: 600;
+    }
+    header { max-width: 920px; margin: 0 auto; padding: 1.5rem 1.15rem 0.9rem; text-align: center; }
+    header h1 { font-size: 1.9rem; color: var(--accent); text-shadow: 0 0 18px var(--accent-glow); margin-bottom: 0.35rem; }
+    header p { color: var(--text-muted); font-size: 0.93rem; max-width: 560px; margin: 0 auto; }
+
+    .wrap { max-width: 780px; margin: 0 auto; padding: 0.5rem 1.1rem 2.5rem; }
+    .tool-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 1.35rem 1.2rem;
+    }
+
+    .mode-tabs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.45rem;
+      margin-bottom: 1.15rem;
+    }
+    .mode-btn {
+      padding: 0.6rem 0.4rem;
+      border-radius: 12px;
+      border: 1px solid var(--card-border);
+      background: var(--input-bg);
+      color: var(--text-main);
+      font-size: 0.84rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .mode-btn.active {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: var(--btn-text);
+      border-color: transparent;
+    }
+
+    .mode-panel { display: none; }
+    .mode-panel.active { display: flex; flex-direction: column; gap: 0.75rem; }
+
+    label.field-label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 0.3rem;
+    }
+    input[type="text"], input[type="number"], input[type="tel"], textarea, select {
+      width: 100%;
+      padding: 0.72rem 0.9rem;
+      border-radius: 11px;
+      border: 1px solid var(--card-border);
+      background: var(--input-bg);
+      color: var(--text-main);
+      font-size: 0.93rem;
+      outline: none;
+    }
+    input:focus, textarea:focus, select:focus { border-color: var(--accent); }
+
+    .options-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.65rem;
+      margin-top: 1rem;
+      padding-top: 0.95rem;
+      border-top: 1px solid var(--card-border);
+    }
+    input[type="color"] {
+      width: 100%;
+      height: 40px;
+      padding: 3px;
+      border-radius: 10px;
+      border: 1px solid var(--card-border);
+      background: var(--input-bg);
+      cursor: pointer;
+    }
+
+    .gen-btn {
+      width: 100%;
+      margin-top: 1.05rem;
+      padding: 0.85rem;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: var(--btn-text);
+      font-weight: 700;
+      font-size: 0.98rem;
+      cursor: pointer;
+      box-shadow: 0 6px 18px var(--accent-glow);
+    }
+
+    .qr-output {
+      display: none;
+      margin-top: 1.35rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--card-border);
+      text-align: center;
+    }
+    .qr-output.show { display: block; }
+    .qr-frame {
+      display: inline-block;
+      padding: 14px;
+      border-radius: 16px;
+      background: #ffffff;
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.3);
+      max-width: 100%;
+    }
+    #qrBox canvas, #qrBox img {
+      display: block;
+      max-width: 100%;
+      height: auto !important;
+      margin: 0 auto;
+    }
+    .qr-preview-text {
+      margin-top: 0.7rem;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      word-break: break-all;
+    }
+    .action-row {
+      display: flex;
+      gap: 0.6rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 0.95rem;
+    }
+    .sec-btn {
+      padding: 0.65rem 1.2rem;
+      border-radius: 999px;
+      border: 1px solid var(--accent);
+      background: transparent;
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 0.88rem;
+      cursor: pointer;
+    }
+    .sec-btn.primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: var(--btn-text);
+      border-color: transparent;
+    }
+    .err-msg {
+      color: #f87171;
+      font-size: 0.85rem;
+      margin-top: 0.6rem;
+      font-weight: 600;
+      min-height: 1.1rem;
+    }
+
+    footer { text-align: center; padding: 1.5rem 1rem 2rem; color: var(--text-footer); font-size: 0.88rem; }
+
+    @media (max-width: 480px) {
+      .mode-tabs { grid-template-columns: repeat(2, 1fr); }
+      .options-row { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="live-bg"></div>
+  <canvas id="starfield"></canvas>
+  <div id="google_translate_element" style="display:none;"></div>
+
+  <div class="topbar">
+    <a href="index.html" class="nav-pill">&larr; Home</a>
+    <span style="font-size:0.85rem; color:var(--text-muted); font-weight:600;">NexaSoft Works</span>
+  </div>
+
+  <header>
+    <h1>QR Code Generator</h1>
+    <p>Create instant QR codes for Links, UPI Payments, Wi-Fi Login, or WhatsApp Chat — 100% free &amp; private.</p>
+  </header>
+
+  <div class="wrap">
+    <div class="tool-card">
+      <div class="mode-tabs">
+        <button type="button" class="mode-btn active" onclick="switchMode('text', this)">Link / Text</button>
+        <button type="button" class="mode-btn" onclick="switchMode('upi', this)">UPI Pay</button>
+        <button type="button" class="mode-btn" onclick="switchMode('wifi', this)">Wi-Fi</button>
+        <button type="button" class="mode-btn" onclick="switchMode('whatsapp', this)">WhatsApp</button>
+      </div>
+
+      <div id="panel-text" class="mode-panel active">
+        <div>
+          <label class="field-label" for="qrText">Website URL or Any Text</label>
+          <textarea id="qrText" rows="3" placeholder="e.g. https://backbencher112x-sketch.github.io/NexaSoft-Works/"></textarea>
+        </div>
+      </div>
+
+      <div id="panel-upi" class="mode-panel">
+        <div>
+          <label class="field-label" for="upiId">UPI ID (Required)</label>
+          <input type="text" id="upiId" placeholder="e.g. yourname@okicici or 9876543210@ybl" />
+        </div>
+        <div>
+          <label class="field-label" for="upiName">Payee / Shop Name</label>
+          <input type="text" id="upiName" placeholder="e.g. NexaSoft Works" />
+        </div>
+        <div>
+          <label class="field-label" for="upiAmount">Amount in ₹ (Optional)</label>
+          <input type="number" id="upiAmount" placeholder="Leave blank so user can enter amount" min="1" step="any" />
+        </div>
+      </div>
+
+      <div id="panel-wifi" class="mode-panel">
+        <div>
+          <label class="field-label" for="wifiSsid">Wi-Fi Network Name (SSID)</label>
+          <input type="text" id="wifiSsid" placeholder="e.g. MyHome_5G" />
+        </div>
+        <div>
+          <label class="field-label" for="wifiPass">Wi-Fi Password</label>
+          <input type="text" id="wifiPass" placeholder="Enter Wi-Fi password" />
+        </div>
+        <div>
+          <label class="field-label" for="wifiType">Security Type</label>
+          <select id="wifiType">
+            <option value="WPA">WPA / WPA2 / WPA3 (Standard)</option>
+            <option value="WEP">WEP</option>
+            <option value="nopass">Open (No Password)</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="panel-whatsapp" class="mode-panel">
+        <div>
+          <label class="field-label" for="waPhone">WhatsApp Number (with Country Code)</label>
+          <input type="tel" id="waPhone" placeholder="e.g. 919876543210 (91 for India)" />
+        </div>
+        <div>
+          <label class="field-label" for="waMsg">Pre-filled Message (Optional)</label>
+          <textarea id="waMsg" rows="2" placeholder="e.g. Hello, I want to inquire about software work."></textarea>
+        </div>
+      </div>
+
+      <div class="options-row">
+        <div>
+          <label class="field-label" for="qrSize">Size</label>
+          <select id="qrSize">
+            <option value="220">Small (220px)</option>
+            <option value="280" selected>Medium (280px)</option>
+            <option value="360">Large HD (360px)</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label" for="qrFg">QR Color</label>
+          <input type="color" id="qrFg" value="#0f172a" />
+        </div>
+        <div>
+          <label class="field-label" for="qrBg">Background</label>
+          <input type="color" id="qrBg" value="#ffffff" />
+        </div>
+      </div>
+
+      <button type="button" class="gen-btn" onclick="generateQR()">Generate QR Code</button>
+      <div class="err-msg" id="errMsg"></div>
+
+      <div class="qr-output" id="qrOutput">
+        <div class="qr-frame" id="qrFrame">
+          <div id="qrBox"></div>
+        </div>
+        <div class="qr-preview-text" id="qrPreviewText"></div>
+        <div class="action-row">
+          <button type="button" class="sec-btn primary" onclick="downloadQR()">Download PNG</button>
+          <button type="button" class="sec-btn" onclick="copyPayload()">Copy QR Text</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2026 NexaSoft Works &bull; Created &amp; Managed by Anant Mishra
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script>
+    try {
+      var modeTheme = localStorage.getItem("nexa_theme") || "system";
+      var darkSys = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+      document.documentElement.setAttribute("data-theme", modeTheme === "system" ? (darkSys ? "dark" : "light") : modeTheme);
+    } catch (e) {}
+
+    var currentMode = "text";
+    var lastPayload = "";
+
+    function switchMode(mode, btn) {
+      currentMode = mode;
+      var btns = document.querySelectorAll(".mode-btn");
+      for (var i = 0; i < btns.length; i++) btns[i].classList.remove("active");
+      if (btn) btn.classList.add("active");
+
+      var panels = document.querySelectorAll(".mode-panel");
+      for (var j = 0; j < panels.length; j++) panels[j].classList.remove("active");
+      var activePanel = document.getElementById("panel-" + mode);
+      if (activePanel) activePanel.classList.add("active");
+      document.getElementById("errMsg").textContent = "";
+    }
+
+    function buildPayload() {
+      if (currentMode === "text") {
+        var txt = document.getElementById("qrText").value.trim();
+        if (!txt) return { err: "Please enter a link or text first." };
+        return { data: txt };
+      }
+      if (currentMode === "upi") {
+        var pa = document.getElementById("upiId").value.trim();
+        var pn = document.getElementById("upiName").value.trim() || "Merchant";
+        var am = document.getElementById("upiAmount").value.trim();
+        if (!pa || pa.indexOf("@") === -1) return { err: "Please enter a valid UPI ID (e.g. name@bank)." };
+        var upi = "upi://pay?pa=" + encodeURIComponent(pa) + "&pn=" + encodeURIComponent(pn) + "&cu=INR";
+        if (am && Number(am) > 0) upi += "&am=" + encodeURIComponent(am);
+        return { data: upi };
+      }
+      if (currentMode === "wifi") {
+        var ssid = document.getElementById("wifiSsid").value.trim();
+        var pass = document.getElementById("wifiPass").value;
+        var type = document.getElementById("wifiType").value;
+        if (!ssid) return { err: "Please enter your Wi-Fi network name (SSID)." };
+        return { data: "WIFI:T:" + type + ";S:" + ssid + ";P:" + (type === "nopass" ? "" : pass) + ";;" };
+      }
+      if (currentMode === "whatsapp") {
+        var phone = document.getElementById("waPhone").value.replace(/[^0-9]/g, "");
+        var msg = document.getElementById("waMsg").value.trim();
+        if (phone.length < 10) return { err: "Please enter a valid WhatsApp number with country code (e.g. 919876543210)." };
+        var wa = "https://wa.me/" + phone + (msg ? "?text=" + encodeURIComponent(msg) : "");
+        return { data: wa };
+      }
+      return { err: "Unknown mode." };
+    }
+
+    function generateQR() {
+      var errEl = document.getElementById("errMsg");
+      var outEl = document.getElementById("qrOutput");
+      var box = document.getElementById("qrBox");
+      var frame = document.getElementById("qrFrame");
+      var preview = document.getElementById("qrPreviewText");
+      errEl.textContent = "";
+
+      var res = buildPayload();
+      if (res.err) {
+        errEl.textContent = res.err;
+        outEl.classList.remove("show");
+        return;
+      }
+
+      lastPayload = res.data;
+      var size = parseInt(document.getElementById("qrSize").value, 10) || 280;
+      var fg = document.getElementById("qrFg").value || "#0f172a";
+      var bg = document.getElementById("qrBg").value || "#ffffff";
+
+      box.innerHTML = "";
+      frame.style.background = bg;
+
+      if (typeof QRCode !== "undefined") {
+        new QRCode(box, {
+          text: lastPayload,
+          width: size,
+          height: size,
+          colorDark: fg,
+          colorLight: bg,
+          correctLevel: QRCode.CorrectLevel.H
+        });
+      } else {
+        var img = document.createElement("img");
+        img.alt = "Generated QR Code";
+        img.width = size;
+        img.height = size;
+        img.src = "https://api.qrserver.com/v1/create-qr-code/?size=" + size + "x" + size +
+          "&color=" + fg.replace("#", "") + "&bgcolor=" + bg.replace("#", "") +
+          "&data=" + encodeURIComponent(lastPayload);
+        box.appendChild(img);
+      }
+
+      preview.textContent = lastPayload;
+      outEl.classList.add("show");
+    }
+
+    function downloadQR() {
+      var box = document.getElementById("qrBox");
+      var canvas = box.querySelector("canvas");
+      var img = box.querySelector("img");
+      var a = document.createElement("a");
+      a.download = "nexasoft-qr-" + currentMode + ".png";
+      if (canvas) {
+        a.href = canvas.toDataURL("image/png");
+        a.click();
+      } else if (img && img.src) {
+        a.href = img.src;
+        a.target = "_blank";
+        a.click();
+      }
+    }
+
+    function copyPayload() {
+      if (!lastPayload) return;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(lastPayload).then(function () {
+          document.getElementById("errMsg").style.color = "#22c55e";
+          document.getElementById("errMsg").textContent = "Copied QR text to clipboard!";
+          setTimeout(function () {
+            document.getElementById("errMsg").textContent = "";
+            document.getElementById("errMsg").style.color = "#f87171";
+          }, 2000);
+        });
+      }
+    }
+
+    function googleTranslateElementInit() {
+      try {
+        new google.translate.TranslateElement({
+          pageLanguage: "en",
+          includedLanguages: "en,hi,bn,te,mr,ta,gu,ur,kn,or,ml,pa,as,mai,sa,gom,doi,ne,sd,mni-Mtei,bho",
+          autoDisplay: false
+        }, "google_translate_element");
+      } catch (e) {}
+    }
+
+    try {
+      var canvas = document.getElementById("starfield");
+      if (canvas && canvas.getContext) {
+        var ctx = canvas.getContext("2d"), stars = [];
+        function resize() {
+          canvas.width = window.innerWidth; canvas.height = window.innerHeight; stars = [];
+          for (var i = 0; i < 80; i++) stars.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, r: Math.random()*1.4+0.4, a: Math.random(), sp: Math.random()*0.015+0.005, vy: Math.random()*0.1+0.03 });
+        }
+        function animate() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          var light = document.documentElement.getAttribute("data-theme") === "light";
+          var rgb = light ? "56,130,246" : "255,255,255";
+          for (var i = 0; i < stars.length; i++) {
+            var s = stars[i]; s.a += s.sp; if (s.a > 1 || s.a < 0.2) s.sp *= -1;
+            s.y -= s.vy; if (s.y < 0) { s.y = canvas.height; s.x = Math.random()*canvas.width; }
+            ctx.fillStyle = "rgba(" + rgb + "," + (light ? s.a * 0.5 : s.a) + ")";
+            ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, 6.283); ctx.fill();
+          }
+          requestAnimationFrame(animate);
+        }
+        window.addEventListener("resize", resize); resize(); animate();
+      }
+    } catch (e) {}
+  </script>
+  <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+  </html>
+                                               
