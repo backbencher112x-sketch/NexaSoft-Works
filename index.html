@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NexaSoft Works | Complete Software Solutions</title>
+  <title>Custom Tools &amp; Automation Hub | NexaSoft Works</title>
   <style>
     :root {
       --bg-base: #020617;
@@ -12,19 +12,16 @@
       --text-footer: #94a3b8;
       --accent: #38bdf8;
       --accent-2: #818cf8;
-      --accent-glow: rgba(56, 189, 248, 0.45);
+      --accent-glow: rgba(56, 189, 248, 0.4);
       --btn-text: #020617;
-      --card-bg: rgba(15, 23, 42, 0.56);
-      --card-border: rgba(148, 163, 184, 0.24);
-      --panel-bg: rgba(15, 23, 42, 0.9);
-      --input-bg: rgba(30, 41, 59, 0.85);
-      --input-border: rgba(148, 163, 184, 0.3);
-      --bg-overlay: linear-gradient(to bottom, rgba(0, 0, 0, 0.35), rgba(4, 18, 42, 0.35));
+      --card-bg: rgba(15, 23, 42, 0.68);
+      --card-border: rgba(148, 163, 184, 0.28);
+      --input-bg: rgba(30, 41, 59, 0.88);
+      --bg-overlay: linear-gradient(to bottom, rgba(0, 0, 0, 0.35), rgba(4, 18, 42, 0.38));
       --bg-fallback: radial-gradient(circle at 50% 105%, #1d4ed8 0%, #581c87 28%, #07142b 60%, #000000 100%);
       --bg-filter: none;
       --bg-opacity: 1;
     }
-
     html[data-theme="light"] {
       --bg-base: #eef6ff;
       --text-main: #0f172a;
@@ -34,303 +31,126 @@
       --accent-2: #6366f1;
       --accent-glow: rgba(2, 132, 199, 0.22);
       --btn-text: #ffffff;
-      --card-bg: rgba(255, 255, 255, 0.76);
-      --card-border: rgba(14, 165, 233, 0.26);
-      --panel-bg: rgba(255, 255, 255, 0.94);
-      --input-bg: rgba(241, 245, 249, 0.95);
-      --input-border: rgba(148, 163, 184, 0.45);
-      --bg-overlay: linear-gradient(160deg, rgba(224, 242, 254, 0.82), rgba(237, 233, 254, 0.78));
+      --card-bg: rgba(255, 255, 255, 0.86);
+      --card-border: rgba(14, 165, 233, 0.28);
+      --input-bg: rgba(241, 245, 249, 0.96);
+      --bg-overlay: linear-gradient(160deg, rgba(224, 242, 254, 0.84), rgba(237, 233, 254, 0.8));
       --bg-fallback: linear-gradient(160deg, #dbeafe 0%, #ede9fe 52%, #f8fafc 100%);
       --bg-filter: invert(0.92) hue-rotate(180deg) saturate(1.25) brightness(1.1);
       --bg-opacity: 0.45;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
-    html { scroll-behavior: smooth; }
-    body {
-      color: var(--text-main);
-      line-height: 1.6;
-      min-height: 100vh;
-      overflow-x: hidden;
-      background: var(--bg-base);
-      transition: background 0.35s ease, color 0.35s ease;
-      top: 0 !important;
-    }
-
+    body { color: var(--text-main); line-height: 1.6; min-height: 100vh; overflow-x: hidden; background: var(--bg-base); top: 0 !important; }
     .goog-te-banner-frame, .skiptranslate, #goog-gt-tt { display: none !important; }
 
     .live-bg {
-      position: fixed;
-      inset: -5%;
-      z-index: -2;
+      position: fixed; inset: -5%; z-index: -2;
       background-image: var(--bg-overlay), url('bg.jpg'), var(--bg-fallback);
-      background-size: cover;
-      background-position: center;
-      filter: var(--bg-filter);
-      opacity: var(--bg-opacity);
+      background-size: cover; background-position: center;
+      filter: var(--bg-filter); opacity: var(--bg-opacity);
       animation: cosmicDrift 24s ease-in-out infinite alternate;
-      transition: filter 0.4s ease, opacity 0.4s ease;
-      will-change: transform;
     }
-
     @keyframes cosmicDrift {
-      0%   { transform: scale(1.0) translate(0%, 0%); }
-      50%  { transform: scale(1.08) translate(-1.5%, -1%); }
+      0% { transform: scale(1.0) translate(0%, 0%); }
+      50% { transform: scale(1.08) translate(-1.5%, -1%); }
       100% { transform: scale(1.04) translate(1.5%, 1%); }
     }
+    #starfield { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
 
-    #starfield {
-      position: fixed;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      pointer-events: none;
+    .topbar { max-width: 920px; margin: 0 auto; padding: 1rem 1.15rem 0; display: flex; align-items: center; justify-content: space-between; }
+    .nav-pill {
+      display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.5rem 0.95rem;
+      border-radius: 999px; background: var(--card-bg); border: 1px solid var(--card-border);
+      backdrop-filter: blur(10px); color: var(--text-main); text-decoration: none;
+      font-size: 0.88rem; font-weight: 600;
     }
+    header { max-width: 920px; margin: 0 auto; padding: 1.4rem 1.15rem 0.8rem; text-align: center; }
+    header h1 { font-size: 1.88rem; color: var(--accent); text-shadow: 0 0 18px var(--accent-glow); margin-bottom: 0.35rem; }
+    header p { color: var(--text-muted); font-size: 0.92rem; max-width: 580px; margin: 0 auto; }
 
-    .settings-fab {
-      position: fixed;
-      top: 14px;
-      right: 14px;
-      z-index: 1000;
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      border: 1px solid var(--card-border);
-      background: var(--card-bg);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      color: var(--text-main);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
-      transition: transform 0.25s ease, border-color 0.25s ease;
-    }
-    .settings-fab:hover {
-      transform: rotate(35deg) scale(1.06);
-      border-color: var(--accent);
-    }
+    .wrap { max-width: 820px; margin: 0 auto; padding: 0.5rem 1.1rem 2.5rem; }
 
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      z-index: 1100;
-      background: rgba(2, 6, 23, 0.55);
-      backdrop-filter: blur(4px);
-      display: none;
-      align-items: flex-start;
-      justify-content: flex-end;
-      padding: 68px 14px 14px;
+    .tool-tabs { display: flex; gap: 0.45rem; overflow-x: auto; padding-bottom: 0.85rem; scrollbar-width: none; }
+    .tool-tabs::-webkit-scrollbar { display: none; }
+    .tool-tab-btn {
+      flex: 0 0 auto; padding: 0.55rem 1rem; border-radius: 999px; border: 1px solid var(--card-border);
+      background: var(--card-bg); color: var(--text-main); font-size: 0.86rem; font-weight: 700; cursor: pointer;
     }
-    .modal-backdrop.open { display: flex; }
+    .tool-tab-btn.active { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: var(--btn-text); border-color: transparent; }
 
-    .settings-panel {
-      width: 100%;
-      max-width: 360px;
-      max-height: calc(100vh - 86px);
-      overflow-y: auto;
-      background: var(--panel-bg);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 1.25rem;
-      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.38);
-      color: var(--text-main);
-    }
-    .panel-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1rem;
-      padding-bottom: 0.75rem;
-      border-bottom: 1px solid var(--card-border);
-    }
-    .panel-header h3 { font-size: 1.1rem; color: var(--accent); }
-    .close-btn {
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
-      font-size: 1.5rem;
-      line-height: 1;
-      cursor: pointer;
-      padding: 2px 6px;
-    }
+    .tool-section { display: none; }
+    .tool-section.active { display: block; }
 
-    .setting-block { margin-bottom: 1.2rem; }
-    .setting-label {
-      display: block;
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: var(--text-muted);
-      margin-bottom: 0.5rem;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
+    .tool-card {
+      background: var(--card-bg); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--card-border); border-radius: 18px; padding: 1.35rem 1.2rem;
     }
+    .tool-title { font-size: 1.25rem; color: var(--accent); margin-bottom: 0.25rem; }
+    .tool-sub { font-size: 0.86rem; color: var(--text-muted); margin-bottom: 1rem; }
 
-    select, input, textarea {
-      width: 100%;
-      padding: 0.65rem 0.75rem;
-      border-radius: 10px;
-      border: 1px solid var(--input-border);
-      background: var(--input-bg);
-      color: var(--text-main);
-      font-size: 0.92rem;
-      outline: none;
+    .mode-tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.45rem; margin-bottom: 1rem; }
+    .mode-btn {
+      padding: 0.55rem 0.4rem; border-radius: 10px; border: 1px solid var(--card-border);
+      background: var(--input-bg); color: var(--text-main); font-size: 0.83rem; font-weight: 600; cursor: pointer;
     }
-    select:focus, input:focus, textarea:focus { border-color: var(--accent); }
+    .mode-btn.active { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: var(--btn-text); border-color: transparent; }
+    .mode-panel { display: none; }
+    .mode-panel.active { display: flex; flex-direction: column; gap: 0.7rem; }
 
-    .theme-group {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.5rem;
+    label.field-label { display: block; font-size: 0.82rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.3rem; }
+    input[type="text"], input[type="number"], input[type="tel"], input[type="file"], textarea, select {
+      width: 100%; padding: 0.72rem 0.9rem; border-radius: 11px; border: 1px solid var(--card-border);
+      background: var(--input-bg); color: var(--text-main); font-size: 0.92rem; outline: none;
     }
-    .theme-btn {
-      padding: 0.55rem 0.4rem;
-      border-radius: 10px;
-      border: 1px solid var(--input-border);
-      background: var(--input-bg);
-      color: var(--text-main);
-      font-size: 0.85rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-    .theme-btn.active {
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      color: var(--btn-text);
-      border-color: transparent;
-    }
+    input:focus, textarea:focus, select:focus { border-color: var(--accent); }
+    input[type="color"] { width: 100%; height: 40px; padding: 3px; border-radius: 10px; border: 1px solid var(--card-border); background: var(--input-bg); cursor: pointer; }
+    input[type="range"] { width: 100%; accent-color: var(--accent); }
 
-    .support-form { display: flex; flex-direction: column; gap: 0.6rem; }
-    .submit-btn {
-      width: 100%;
-      padding: 0.7rem;
-      border: none;
-      border-radius: 10px;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      color: var(--btn-text);
-      font-weight: 700;
-      cursor: pointer;
-      font-size: 0.92rem;
-    }
-    .email-quick-btn {
-      display: block;
-      text-align: center;
-      padding: 0.6rem;
-      margin-bottom: 0.75rem;
-      border-radius: 10px;
-      border: 1px solid var(--accent);
-      color: var(--accent);
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.88rem;
-    }
-    .status-msg { font-size: 0.85rem; margin-top: 0.4rem; font-weight: 600; }
-    .ticket-list {
-      margin-top: 0.75rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.45rem;
-    }
-    .ticket-item {
-      background: var(--input-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 8px;
-      padding: 0.55rem 0.7rem;
-      font-size: 0.8rem;
-    }
-    .ticket-item strong { color: var(--accent); display: block; }
+    .options-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.65rem; margin-top: 0.9rem; padding-top: 0.9rem; border-top: 1px solid var(--card-border); }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.65rem; }
 
-    header {
-      padding: 4.8rem 1.5rem 3.2rem;
-      text-align: center;
+    .gen-btn {
+      width: 100%; margin-top: 1rem; padding: 0.82rem; border: none; border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: var(--btn-text);
+      font-weight: 700; font-size: 0.95rem; cursor: pointer; box-shadow: 0 6px 18px var(--accent-glow);
     }
-    header h1 {
-      font-size: 2.35rem;
-      color: var(--accent);
-      text-shadow: 0 0 22px var(--accent-glow);
-      margin-bottom: 0.75rem;
+    .action-row { display: flex; gap: 0.55rem; justify-content: center; flex-wrap: wrap; margin-top: 0.9rem; }
+    .sec-btn {
+      padding: 0.58rem 1rem; border-radius: 999px; border: 1px solid var(--accent);
+      background: transparent; color: var(--accent); font-weight: 700; font-size: 0.84rem; cursor: pointer;
     }
-    header p {
-      max-width: 600px;
-      margin: 0 auto 1.75rem;
-      color: var(--text-muted);
-    }
-    .btn {
-      display: inline-block;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      color: var(--btn-text);
-      padding: 0.8rem 1.75rem;
-      border-radius: 999px;
-      text-decoration: none;
-      font-weight: 700;
-      box-shadow: 0 6px 20px var(--accent-glow);
-      transition: transform 0.2s ease;
-    }
-    .btn:hover { transform: translateY(-2px); }
+    .sec-btn.primary { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: var(--btn-text); border-color: transparent; }
 
-    section {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 2.2rem 1.5rem;
+    .output-box { display: none; margin-top: 1.2rem; padding-top: 1.1rem; border-top: 1px solid var(--card-border); text-align: center; }
+    .output-box.show { display: block; }
+    .qr-frame { display: inline-block; padding: 14px; border-radius: 16px; background: #ffffff; max-width: 100%; }
+    #qrBox canvas, #qrBox img { display: block; max-width: 100%; height: auto !important; margin: 0 auto; }
+    .preview-img { max-width: 100%; max-height: 240px; border-radius: 12px; border: 1px solid var(--card-border); margin: 0.5rem auto; display: block; }
+
+    .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.55rem; margin: 0.85rem 0; }
+    .stat-box { background: var(--input-bg); border: 1px solid var(--card-border); border-radius: 10px; padding: 0.65rem 0.4rem; text-align: center; }
+    .stat-box strong { display: block; font-size: 1.15rem; color: var(--accent); }
+    .stat-box span { font-size: 0.74rem; color: var(--text-muted); }
+
+    .pwd-display {
+      background: var(--input-bg); border: 1px solid var(--accent); border-radius: 12px;
+      padding: 0.9rem; font-family: monospace; font-size: 1.15rem; font-weight: 700;
+      color: var(--accent); word-break: break-all; text-align: center; margin-bottom: 0.85rem;
     }
-    h2 {
-      font-size: 1.65rem;
-      margin-bottom: 1.4rem;
-      text-align: center;
-      color: var(--text-main);
+    .check-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; margin-top: 0.75rem; }
+    .check-item {
+      display: flex; align-items: center; gap: 0.45rem; background: var(--input-bg);
+      padding: 0.55rem 0.7rem; border-radius: 10px; border: 1px solid var(--card-border); font-size: 0.85rem; cursor: pointer;
     }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.25rem;
-    }
-    .card, .contact {
-      background: var(--card-bg);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      padding: 1.5rem;
-      border-radius: 14px;
-      border: 1px solid var(--card-border);
-      transition: transform 0.2s ease, background 0.35s ease, border-color 0.35s ease;
-    }
-    a.card {
-      text-decoration: none;
-      display: block;
-      color: inherit;
-    }
-    a.card:hover {
-      transform: translateY(-3px);
-      border-color: var(--accent);
-    }
-    .card h3 { color: var(--accent); margin-bottom: 0.5rem; font-size: 1.1rem; }
-    .card p { color: var(--text-muted); font-size: 0.95rem; }
-    .contact { text-align: center; padding: 2.2rem 1.5rem; }
-    .creator-badge {
-      display: inline-block;
-      padding: 0.35rem 0.9rem;
-      border-radius: 999px;
-      background: var(--input-bg);
-      border: 1px solid var(--card-border);
-      font-size: 0.92rem;
-      margin-bottom: 0.7rem;
-    }
-    .email-link {
-      color: var(--accent);
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 1.02rem;
-      word-break: break-all;
-    }
-    .email-link:hover { text-decoration: underline; }
-    footer {
-      text-align: center;
-      padding: 2rem 1rem;
-      color: var(--text-footer);
-      font-size: 0.9rem;
+    .msg-status { font-size: 0.85rem; margin-top: 0.55rem; font-weight: 600; min-height: 1.1rem; color: #f87171; }
+    .msg-status.ok { color: #22c55e; }
+
+    footer { text-align: center; padding: 1.5rem 1rem 2rem; color: var(--text-footer); font-size: 0.88rem; }
+
+    @media (max-width: 520px) {
+      .mode-tabs, .stat-grid { grid-template-columns: repeat(2, 1fr); }
+      .options-row { grid-template-columns: 1fr 1fr; }
     }
   </style>
 </head>
@@ -339,204 +159,200 @@
   <canvas id="starfield"></canvas>
   <div id="google_translate_element" style="display:none;"></div>
 
-  <button class="settings-fab" id="openSettings" aria-label="Settings">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="12" cy="12" r="3"></circle>
-      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-    </svg>
-  </button>
-
-  <div class="modal-backdrop" id="settingsModal">
-    <div class="settings-panel">
-      <div class="panel-header">
-        <h3 data-i18n="settingsTitle">Settings</h3>
-        <button class="close-btn" id="closeSettings" aria-label="Close">&times;</button>
-      </div>
-
-      <div class="setting-block">
-        <label class="setting-label" for="langSelect" data-i18n="langLabel">Language (Indian Languages)</label>
-        <select id="langSelect">
-          <option value="en">English</option>
-          <option value="hi">हिन्दी (Hindi)</option>
-          <option value="bn">বাংলা (Bengali)</option>
-          <option value="te">తెలుగు (Telugu)</option>
-          <option value="mr">मराठी (Marathi)</option>
-          <option value="ta">தமிழ் (Tamil)</option>
-          <option value="gu">ગુજરાતી (Gujarati)</option>
-          <option value="ur">اردو (Urdu)</option>
-          <option value="kn">ಕನ್ನಡ (Kannada)</option>
-          <option value="or">ଓଡ଼ିଆ (Odia)</option>
-          <option value="ml">മലയാളം (Malayalam)</option>
-          <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
-          <option value="as">অসমীয়া (Assamese)</option>
-          <option value="mai">मैथिली (Maithili)</option>
-          <option value="sa">संस्कृतम् (Sanskrit)</option>
-          <option value="gom">कोंकणी (Konkani)</option>
-          <option value="doi">डोगरी (Dogri)</option>
-          <option value="ne">नेपाली (Nepali)</option>
-          <option value="sd">سنڌي (Sindhi)</option>
-          <option value="mni-Mtei">মণিপুরী (Manipuri)</option>
-          <option value="bho">भोजपुरी (Bhojpuri)</option>
-        </select>
-      </div>
-
-      <div class="setting-block">
-        <span class="setting-label" data-i18n="themeLabel">Theme</span>
-        <div class="theme-group">
-          <button class="theme-btn" data-set-theme="system">System</button>
-          <button class="theme-btn" data-set-theme="dark">Dark</button>
-          <button class="theme-btn" data-set-theme="light">Light</button>
-        </div>
-      </div>
-
-      <div class="setting-block" style="margin-bottom:0;">
-        <span class="setting-label" data-i18n="helpLabel">Help &amp; Support</span>
-        <a class="email-quick-btn" href="mailto:backbencher112x@gmail.com?subject=NexaSoft%20Works%20Support">
-          Direct Email: backbencher112x@gmail.com
-        </a>
-        <form class="support-form" id="supportForm">
-          <input type="text" id="supName" placeholder="Your Name" required />
-          <input type="email" id="supEmail" placeholder="Your Email" required />
-          <textarea id="supIssue" rows="3" placeholder="Describe your problem or complaint..." required></textarea>
-          <button type="submit" class="submit-btn" id="submitBtn">Submit Complaint</button>
-          <div class="status-msg" id="formStatus"></div>
-        </form>
-        <div class="ticket-list" id="ticketList"></div>
-      </div>
-    </div>
+  <div class="topbar">
+    <a href="index.html" class="nav-pill">&larr; Home</a>
+    <span style="font-size:0.85rem; color:var(--text-muted); font-weight:600;">NexaSoft Works</span>
   </div>
 
   <header>
-    <h1>NexaSoft Works</h1>
-    <p data-i18n="heroSub">Complete software solutions—web development, mobile apps, custom tools, automation, and reliable IT support.</p>
-    <a href="#contact" class="btn" data-i18n="ctaBtn">Get in Touch</a>
+    <h1>Custom Tools Hub</h1>
+    <p>5 free, fast &amp; private browser tools — QR Generator, Image KB Compressor, WhatsApp Direct Chat, Password Generator &amp; Text Tools.</p>
   </header>
 
-  <section id="services">
-    <h2 data-i18n="servicesTitle">Our Services</h2>
-    <div class="grid">
-      <div class="card">
-        <h3 data-i18n="s1Title">Web Development</h3>
-        <p data-i18n="s1Desc">Fast, responsive websites and web apps built for businesses and startups.</p>
-      </div>
-      <a href="mobile-apps.html" class="card">
-        <h3 data-i18n="s2Title">Mobile Apps &amp; Guides &rarr;</h3>
-        <p data-i18n="s2Desc">Network problem fixes, WhatsApp privacy levels, YouTube quality settings &amp; mobile solutions.</p>
-      </a>
-      <a href="tools.html" class="card">
-        <h3 data-i18n="s3Title">Custom Tools &amp; Automation &rarr;</h3>
-        <p data-i18n="s3Desc">QR Code Generator (Link, UPI, Wi-Fi, WhatsApp) &amp; daily smart tools.</p>
-      </a>
-      <div class="card">
-        <h3 data-i18n="s4Title">IT &amp; Software Support</h3>
-        <p data-i18n="s4Desc">Troubleshooting, software setup, maintenance, and ongoing technical help.</p>
-      </div>
+  <div class="wrap">
+    <div class="tool-tabs">
+      <button type="button" class="tool-tab-btn active" onclick="openTool('qr', this)">QR Generator</button>
+      <button type="button" class="tool-tab-btn" onclick="openTool('img', this)">Image KB Compressor</button>
+      <button type="button" class="tool-tab-btn" onclick="openTool('wa', this)">WhatsApp Direct</button>
+      <button type="button" class="tool-tab-btn" onclick="openTool('pwd', this)">Password Generator</button>
+      <button type="button" class="tool-tab-btn" onclick="openTool('txt', this)">Word Counter &amp; Text</button>
     </div>
-  </section>
 
-  <section id="contact">
-    <div class="contact">
-      <h2 data-i18n="contactTitle">Contact Us</h2>
-      <p style="margin-bottom: 1rem; color: var(--text-muted);" data-i18n="contactSub">Have a software project or need technical help? Reach out anytime.</p>
-      <div class="creator-badge">
-        <span data-i18n="creatorLabel">Founder &amp; Creator:</span> <strong>Anant Mishra</strong>
+    <section id="tool-qr" class="tool-section active">
+      <div class="tool-card">
+        <h2 class="tool-title">QR Code Generator</h2>
+        <p class="tool-sub">Create QR codes for Links, UPI Payments, Wi-Fi Login, or WhatsApp Chat.</p>
+
+        <div class="mode-tabs">
+          <button type="button" class="mode-btn active" onclick="switchQrMode('text', this)">Link / Text</button>
+          <button type="button" class="mode-btn" onclick="switchQrMode('upi', this)">UPI Pay</button>
+          <button type="button" class="mode-btn" onclick="switchQrMode('wifi', this)">Wi-Fi</button>
+          <button type="button" class="mode-btn" onclick="switchQrMode('whatsapp', this)">WhatsApp</button>
+        </div>
+
+        <div id="panel-text" class="mode-panel active">
+          <div>
+            <label class="field-label" for="qrText">Website URL or Any Text</label>
+            <textarea id="qrText" rows="3" placeholder="e.g. https://backbencher112x-sketch.github.io/NexaSoft-Works/"></textarea>
+          </div>
+        </div>
+
+        <div id="panel-upi" class="mode-panel">
+          <div><label class="field-label" for="upiId">UPI ID (Required)</label><input type="text" id="upiId" placeholder="e.g. yourname@okicici" /></div>
+          <div><label class="field-label" for="upiName">Payee / Shop Name</label><input type="text" id="upiName" placeholder="e.g. NexaSoft Works" /></div>
+          <div><label class="field-label" for="upiAmount">Amount in ₹ (Optional)</label><input type="number" id="upiAmount" placeholder="Leave blank for custom amount" min="1" step="any" /></div>
+        </div>
+
+        <div id="panel-wifi" class="mode-panel">
+          <div><label class="field-label" for="wifiSsid">Wi-Fi Name (SSID)</label><input type="text" id="wifiSsid" placeholder="e.g. MyHome_5G" /></div>
+          <div><label class="field-label" for="wifiPass">Wi-Fi Password</label><input type="text" id="wifiPass" placeholder="Enter password" /></div>
+          <div><label class="field-label" for="wifiType">Security</label><select id="wifiType"><option value="WPA">WPA / WPA2 / WPA3</option><option value="WEP">WEP</option><option value="nopass">Open (No Password)</option></select></div>
+        </div>
+
+        <div id="panel-whatsapp" class="mode-panel">
+          <div><label class="field-label" for="waQrPhone">WhatsApp Number (with 91)</label><input type="tel" id="waQrPhone" placeholder="e.g. 919876543210" /></div>
+          <div><label class="field-label" for="waQrMsg">Pre-filled Message (Optional)</label><textarea id="waQrMsg" rows="2" placeholder="Hello, I want to connect."></textarea></div>
+        </div>
+
+        <div class="options-row">
+          <div><label class="field-label" for="qrSize">Size</label><select id="qrSize"><option value="220">Small</option><option value="280" selected>Medium</option><option value="360">Large HD</option></select></div>
+          <div><label class="field-label" for="qrFg">QR Color</label><input type="color" id="qrFg" value="#0f172a" /></div>
+          <div><label class="field-label" for="qrBg">Background</label><input type="color" id="qrBg" value="#ffffff" /></div>
+        </div>
+
+        <button type="button" class="gen-btn" onclick="generateQR()">Generate QR Code</button>
+        <div class="msg-status" id="qrErr"></div>
+
+        <div class="output-box" id="qrOutput">
+          <div class="qr-frame" id="qrFrame"><div id="qrBox"></div></div>
+          <div style="margin-top:0.65rem; font-size:0.8rem; color:var(--text-muted); word-break:break-all;" id="qrPreviewText"></div>
+          <div class="action-row">
+            <button type="button" class="sec-btn primary" onclick="downloadQR()">Download PNG</button>
+            <button type="button" class="sec-btn" onclick="copyQrPayload()">Copy QR Text</button>
+          </div>
+        </div>
       </div>
-      <p>
-        <strong>Email:</strong>
-        <a class="email-link" href="mailto:backbencher112x@gmail.com">backbencher112x@gmail.com</a>
-      </p>
-    </div>
-  </section>
+    </section>
+
+    <section id="tool-img" class="tool-section">
+      <div class="tool-card">
+        <h2 class="tool-title">Image KB Compressor</h2>
+        <p class="tool-sub">Reduce photo size to 20KB, 50KB, or 100KB for online &amp; exam forms — 100% private on your device.</p>
+
+        <div style="display:flex; flex-direction:column; gap:0.75rem;">
+          <div>
+            <label class="field-label" for="imgFile">Select Photo (JPG / PNG / WebP)</label>
+            <input type="file" id="imgFile" accept="image/*" />
+          </div>
+          <div class="grid-2">
+            <div>
+              <label class="field-label" for="targetKb">Target Max Size (KB)</label>
+              <input type="number" id="targetKb" value="50" min="10" max="5000" />
+            </div>
+            <div>
+              <label class="field-label" for="maxWidth">Max Width (px)</label>
+              <select id="maxWidth">
+                <option value="600">600 px (Passport / Form)</option>
+                <option value="1000" selected>1000 px (Standard)</option>
+                <option value="1600">1600 px (HD Document)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <button type="button" class="gen-btn" onclick="compressImage()">Compress Photo Now</button>
+        <div class="msg-status" id="imgStatus"></div>
+
+        <div class="output-box" id="imgOutput">
+          <img id="imgPreview" class="preview-img" alt="Compressed preview" />
+          <div id="imgStats" style="font-size:0.88rem; color:var(--accent); font-weight:700; margin-top:0.5rem;"></div>
+          <div class="action-row">
+            <a id="imgDownload" class="sec-btn primary" style="text-decoration:none;" download="nexasoft-compressed.jpg">Download Compressed JPG</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tool-wa" class="tool-section">
+      <div class="tool-card">
+        <h2 class="tool-title">WhatsApp Direct Chat</h2>
+        <p class="tool-sub">Start a WhatsApp chat with any number without saving it in your phone contacts.</p>
+
+        <div style="display:flex; flex-direction:column; gap:0.75rem;">
+          <div class="grid-2">
+            <div>
+              <label class="field-label" for="waCode">Country Code</label>
+              <input type="tel" id="waCode" value="91" placeholder="91" />
+            </div>
+            <div>
+              <label class="field-label" for="waNum">Mobile Number</label>
+              <input type="tel" id="waNum" placeholder="10-digit number" />
+            </div>
+          </div>
+          <div>
+            <label class="field-label" for="waDirectMsg">Message (Optional)</label>
+            <textarea id="waDirectMsg" rows="3" placeholder="Type your message here..."></textarea>
+          </div>
+        </div>
+
+        <button type="button" class="gen-btn" onclick="openWhatsApp()">Open WhatsApp Chat &rarr;</button>
+        <div class="msg-status" id="waStatus"></div>
+      </div>
+    </section>
+
+    <section id="tool-pwd" class="tool-section">
+      <div class="tool-card">
+        <h2 class="tool-title">Strong Password Generator</h2>
+        <p class="tool-sub">Generate unbreakable passwords for Gmail, Instagram, Banking &amp; GitHub.</p>
+
+        <div class="pwd-display" id="pwdDisplay">Click Generate</div>
+
+        <label class="field-label" for="pwdLen">Password Length: <span id="pwdLenVal" style="color:var(--accent);">16</span></label>
+        <input type="range" id="pwdLen" min="8" max="32" value="16" oninput="document.getElementById('pwdLenVal').textContent=this.value; generatePassword();" />
+
+        <div class="check-grid">
+          <label class="check-item"><input type="checkbox" id="chkUpper" checked onchange="generatePassword()" /> Uppercase (A-Z)</label>
+          <label class="check-item"><input type="checkbox" id="chkLower" checked onchange="generatePassword()" /> Lowercase (a-z)</label>
+          <label class="check-item"><input type="checkbox" id="chkNum" checked onchange="generatePassword()" /> Numbers (0-9)</label>
+          <label class="check-item"><input type="checkbox" id="chkSym" checked onchange="generatePassword()" /> Symbols (@#$%)</label>
+        </div>
+
+        <div class="action-row">
+          <button type="button" class="sec-btn primary" onclick="generatePassword()">Generate New</button>
+          <button type="button" class="sec-btn" onclick="copyPassword()">Copy Password</button>
+        </div>
+        <div class="msg-status" id="pwdStatus"></div>
+      </div>
+    </section>
+
+    <section id="tool-txt" class="tool-section">
+      <div class="tool-card">
+        <h2 class="tool-title">Word Counter &amp; Text Tools</h2>
+        <p class="tool-sub">Count words, characters, sentences &amp; transform text case in 1 click.</p>
+
+        <textarea id="txtArea" rows="5" oninput="updateTextStats()" placeholder="Paste or type your text here..."></textarea>
+
+        <div class="stat-grid">
+          <div class="stat-box"><strong id="stWords">0</strong><span>Words</span></div>
+          <div class="stat-box"><strong id="stChars">0</strong><span>Characters</span></div>
+          <div class="stat-box"><strong id="stSent">0</strong><span>Sentences</span></div>
+          <div class="stat-box"><strong id="stRead">0s</strong><span>Read Time</span></div>
+        </div>
+
+        <div class="action-row">
+          <button type="button" class="sec-btn" onclick="transformText('upper')">UPPERCASE</button>
+          <button type="button" class="sec-btn" onclick="transformText('lower')">lowercase</button>
+          <button type="button" class="sec-btn" onclick="transformText('title')">Title Case</button>
+          <button type="button" class="sec-btn" onclick="transformText('clean')">Clean Spaces</button>
+          <button type="button" class="sec-btn primary" onclick="copyTextArea()">Copy Text</button>
+        </div>
+        <div class="msg-status" id="txtStatus"></div>
+      </div>
+    </section>
+  </div>
 
   <footer>
-    &copy; 2026 NexaSoft Works &bull; <span data-i18n="footerCredit">Created &amp; Managed by</span> Anant Mishra
+    &copy; 2026 NexaSoft Works &bull; Created &amp; Managed by Anant Mishra
   </footer>
 
-  <script>
-    const modal = document.getElementById('settingsModal');
-    document.getElementById('openSettings').onclick = () => modal.classList.add('open');
-    document.getElementById('closeSettings').onclick = () => modal.classList.remove('open');
-    modal.onclick = (e) => { if (e.target === modal) modal.classList.remove('open'); };
-
-    const themeBtns = document.querySelectorAll('[data-set-theme]');
-    const sysMedia = window.matchMedia('(prefers-color-scheme: dark)');
-    let currentThemeMode = 'system';
-    try { currentThemeMode = localStorage.getItem('nexa_theme') || 'system'; } catch (e) {}
-
-    function applyTheme(mode) {
-      currentThemeMode = mode;
-      try { localStorage.setItem('nexa_theme', mode); } catch (e) {}
-      const resolved = mode === 'system' ? (sysMedia.matches ? 'dark' : 'light') : mode;
-      document.documentElement.setAttribute('data-theme', resolved);
-      themeBtns.forEach(b => b.classList.toggle('active', b.dataset.setTheme === mode));
-    }
-
-    themeBtns.forEach(b => b.addEventListener('click', () => applyTheme(b.dataset.setTheme)));
-    if (sysMedia.addEventListener) sysMedia.addEventListener('change', () => { if (currentThemeMode === 'system') applyTheme('system'); });
-    applyTheme(currentThemeMode);
-
-    const i18n = {
-      en: {
-        settingsTitle: "Settings",
-        langLabel: "Language (Indian Languages)",
-        themeLabel: "Theme",
-        helpLabel: "Help & Support",
-        heroSub: "Complete software solutions—web development, mobile apps, custom tools, automation, and reliable IT support.",
-        ctaBtn: "Get in Touch",
-        servicesTitle: "Our Services",
-        s1Title: "Web Development",
-        s1Desc: "Fast, responsive websites and web apps built for businesses and startups.",
-        s2Title: "Mobile Apps & Guides →",
-        s2Desc: "Network problem fixes, WhatsApp privacy levels, YouTube quality settings & mobile solutions.",
-        s3Title: "Custom Tools & Automation →",
-        s3Desc: "QR Code Generator (Link, UPI, Wi-Fi, WhatsApp) & daily smart tools.",
-        s4Title: "IT & Software Support",
-        s4Desc: "Troubleshooting, software setup, maintenance, and ongoing technical help.",
-        contactTitle: "Contact Us",
-        contactSub: "Have a software project or need technical help? Reach out anytime.",
-        creatorLabel: "Founder & Creator:",
-        footerCredit: "Created & Managed by"
-      },
-      hi: {
-        settingsTitle: "सेटिंग्स",
-        langLabel: "भाषा (भारतीय भाषाएँ)",
-        themeLabel: "थीम",
-        helpLabel: "मदद और सहायता (Help & Support)",
-        heroSub: "संपूर्ण सॉफ्टवेयर समाधान—वेब डेवलपमेंट, मोबाइल ऐप्स, कस्टम टूल्स, ऑटोमेशन और भरोसेमंद IT सपोर्ट।",
-        ctaBtn: "संपर्क करें",
-        servicesTitle: "हमारी सेवाएँ",
-        s1Title: "वेब डेवलपमेंट",
-        s1Desc: "बिज़नेस और स्टार्टअप्स के लिए तेज़, रेस्पॉन्सिव वेबसाइट्स और वेब ऐप्स।",
-        s2Title: "मोबाइल ऐप्स और गाइड्स →",
-        s2Desc: "नेटवर्क प्रॉब्लम फिक्स, WhatsApp प्राइवेसी लेवल, YouTube क्वालिटी सेटिंग्स और मोबाइल सॉल्यूशन।",
-        s3Title: "कस्टम टूल्स और ऑटोमेशन →",
-        s3Desc: "QR कोड जनरेटर (लिंक, UPI, Wi-Fi, WhatsApp) और रोज़ाना के स्मार्ट टूल्स।",
-        s4Title: "IT और सॉफ्टवेयर सपोर्ट",
-        s4Desc: "ट्रबलशूटिंग, सॉफ्टवेयर सेटअप, मेंटेनेंस और लगातार तकनीकी सहायता।",
-        contactTitle: "हमसे संपर्क करें",
-        contactSub: "कोई सॉफ्टवेयर प्रोजेक्ट या तकनीकी मदद चाहिए? कभी भी संपर्क करें।",
-        creatorLabel: "संस्थापक और निर्माता:",
-        footerCredit: "निर्माता एवं संचालक:"
-      }
-    };
-
-    const langSelect = document.getElementById('langSelect');
-    let savedLang = 'en';
-    try { savedLang = localStorage.getItem('nexa_lang') || 'en'; } catch (e) {}
-    langSelect.value = savedLang;
-
-    function applyLocalLang(lang) {
-      const dict = i18n[lang] || i18n.en;
-      document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (dict[key]) el.textContent = dict[key];
-      });
-    }
-
-    function setGoogleTranslateCookie(lang) {
-      const val = lang === 'en' ? '' : `/en/${lang}`;
-      document.cookie = `googtrans=${val};path=/`;
-      document.cookie = `googtrans=${val};path=/;domain=${location.hostname}`;
-    }
-
-    if (savedLang === 'en' || sav
+  <script src
