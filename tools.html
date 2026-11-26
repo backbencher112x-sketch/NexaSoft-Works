@@ -13,8 +13,8 @@ body{color:var(--t);line-height:1.55;min-height:100vh;overflow-x:hidden;backgrou
 .live-bg{position:fixed;inset:-5%;z-index:-2;background-image:var(--ov),url('bg.jpg'),var(--fb);background-size:cover;background-position:center;filter:var(--fl);opacity:var(--op);animation:drift 24s ease-in-out infinite alternate}
 @keyframes drift{0%{transform:scale(1) translate(0,0)}50%{transform:scale(1.08) translate(-1.5%,-1%)}100%{transform:scale(1.04) translate(1.5%,1%)}}
 #starfield{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
-.top{max-width:860px;margin:0 auto;padding:1rem 1.1rem 0;display:flex;align-items:center;justify-content:space-between}
-.pill{display:inline-flex;align-items:center;padding:.48rem .95rem;border-radius:999px;background:var(--cb);border:1px solid var(--br);color:var(--t);text-decoration:none;font-size:.88rem;font-weight:600}
+.top{max-width:860px;margin:0 auto;padding:1rem 1.1rem 0;display:flex;align-items:center;justify-content:space-between;gap:.5rem}
+.pill{display:inline-flex;align-items:center;padding:.48rem .95rem;border-radius:999px;background:var(--cb);border:1px solid var(--br);color:var(--t);text-decoration:none;font-size:.86rem;font-weight:600}
 header{max-width:860px;margin:0 auto;padding:1.3rem 1.1rem .8rem;text-align:center}
 header h1{font-size:1.85rem;color:var(--a);margin-bottom:.3rem}
 header p{color:var(--m);font-size:.9rem;max-width:560px;margin:0 auto}
@@ -68,7 +68,7 @@ footer{text-align:center;padding:1.4rem 1rem 2rem;color:var(--f);font-size:.86re
 
 <div class="top">
   <a href="index.html" class="pill">&larr; Home</a>
-  <span style="font-size:.84rem;color:var(--m);font-weight:600">NexaSoft Works</span>
+  <a href="more-tools.html" class="pill" style="border-color:var(--a);color:var(--a)">More Tools (6-10) &rarr;</a>
 </div>
 
 <header>
@@ -253,4 +253,4 @@ function compImg(){
   st.className="ms";st.textContent="";
   if(!fi.files||!fi.files[0]){st.textContent="Choose an image first.";return}
   var file=fi.files[0],tb=(parseInt(document.getElementById("tKb").value,10)||50)*1024,mw=parseInt(document.getElementById("maxW").value,10)||1000,r=new FileReader();
-  r.onload=function(ev){var im=new Image();im.onload=function(){var w=im.width,h=im.height;if(w>mw){h=Math.round(h*(mw/w));w=mw}var c=document.createElement("canvas");c.width=w;c.height=h;var cx=c.getContext("2d");cx.fillStyle="#fff";cx.fillRect(0,0,w,h);cx.drawImage(im,0,0,w,h);var q=.92,u=c.toDataURL("image/jpeg",q),b=Math.round((u.length-22)*.75);while(b>tb&&q>.12){q-=.06;u=c.toDataURL("image/jpeg",q);b=Math.round((u.length-22)*.75)}document.getElementById("imgPrev").src=u;document.getElementById("imgInfo").textContent=(file.size/1024).toFixed(1)+" KB → "+(b/1024).toFixed(1)+" KB ("+w+"x"+h+")";document.getElementById("imgDl").href=u;out.classList.add("show");st.className="ms ok";st.textContent="Compressed! Tap Download JPG."};im.src=ev.
+  r.onload=function(ev){var im=new Image();im.onload=function(){var w=im.width,h=im.height;if(w>mw){h=Math.round(h*(mw/w));w=mw}var c=document.createElement("canvas");c.width=w;c.height=h;var cx=c.getContext("2d");cx.fillStyle="#fff";cx.fillRect(0,0,w,h);cx.drawImage(im,0,0,w,h);var q=.92,u=c.toDataURL("image/jpeg",q),b=Math.round((u.length-22)*.75);while(b>tb&&q>.12){q-=.06;u=c.toDataURL("image/jpeg",q);b=Math.round((u.length-22)*.75)}document.getElementById("imgPrev").src=u;document.getElementById("imgInfo").textContent=(file.size/1024).toFixed(1)+" KB → "+(b/1024).toFixed(1)+" KB ("+w+"x"+h+")";document.getElementById("imgDl").href=u;out.classList.add("show");st.className="ms ok";st.textContent="Com
