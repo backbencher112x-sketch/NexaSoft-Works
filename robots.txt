@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://backbencher112x-sketch.github.io/NexaSoft-Works/sitemap.xml
